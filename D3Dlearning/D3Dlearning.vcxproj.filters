@@ -79,6 +79,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="BasicLight.fx">
+      <Filter>FX</Filter>
+    </CustomBuild>
     <CustomBuild Include="Light.fx">
       <Filter>FX</Filter>
     </CustomBuild>
