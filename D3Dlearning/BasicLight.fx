@@ -12,7 +12,8 @@ cbuffer	PerObject
 //针对每一帧
 cbuffer	PerFrame
 {
-	PointLight  g_pointLight;
+	DirLight	g_lights[3];			//光源数组
+	 
 	float3		g_eyePos;				//观察点
 };
 
@@ -58,8 +59,7 @@ float4 PS(VertexOut pin, uniform int numLights) :SV_TARGET
 	for (int i = 0; i<numLights; ++i)
 	{
 		float4 ambient, diff, spec;
-		//ComputeDirLight(g_material,g_lights[i],normal,toEye, ambient,diff,spec);
-		ComputePointLight(g_material, g_pointLight, normal, pin.posTrans, toEye, ambient, diff, spec);
+		ComputeDirLight(g_material,g_lights[i],normal,toEye, ambient,diff,spec);
 		A += ambient;
 		D += diff;
 		S += spec;
@@ -72,14 +72,7 @@ float4 PS(VertexOut pin, uniform int numLights) :SV_TARGET
 
 	return litColor;
 }
-technique11 Light0
-{
-	pass P0
-	{
-		SetVertexShader(CompileShader(vs_5_0, VS()));
-		SetPixelShader(CompileShader(ps_5_0, PS(0)));
-	}
-};
+
 technique11 Light1
 {
 	pass P0

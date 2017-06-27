@@ -52,14 +52,12 @@ private:
 	ID3DX11EffectMatrixVariable		*m_fxWorld;
 	ID3DX11EffectMatrixVariable		*m_fxWorldInvTranspose;
 	ID3DX11EffectVariable			*m_fxMaterial;
-	
+
 	//’Î∂‘√ø“ª÷°
-	ID3DX11EffectVariable			*m_fxdirLights;
-	ID3DX11EffectVariable		    *m_fxPointLight;
+	ID3DX11EffectVariable			*m_fxLights;
 	ID3DX11EffectVariable			*m_fxEyePos;
 
 	Lights::DirLight				m_lights[3];
-	Lights::PointLight              m_pointLight;
 	int								m_numLights;
 	Lights::Material				m_matGrid;
 	Lights::Material				m_matSphere;

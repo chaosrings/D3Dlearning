@@ -16,7 +16,7 @@ struct VertexOut
 };
 
 VertexOut VS(VertexIn vin)
-{	
+{
 	VertexOut vout;
 	vout.posH = mul(float4(vin.pos, 1.f), g_worldViewProj);
 	vout.color = vin.color;
@@ -34,6 +34,6 @@ technique11 BasicColor
 	Pass p0
 	{
 		SetVertexShader(CompileShader(vs_4_0,VS()));
-		SetPixelShader(CompileShader(ps_4_0,PS()));
+	SetPixelShader(CompileShader(ps_4_0,PS()));
 	}
 }

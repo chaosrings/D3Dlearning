@@ -4,7 +4,7 @@ D3Dlight::D3Dlight(HINSTANCE hInst, std::wstring title, int width, int height) :
 	WinApp(hInst, title, width, height), m_inputLayout(nullptr),
 	m_VertexBuffer(nullptr), m_IndexBuffer(nullptr), m_fx(nullptr),
 	m_fxWorldViewProj(nullptr), m_fxWorld(nullptr), m_fxWorldInvTranspose(nullptr),
-	m_fxMaterial(nullptr), m_fxdirLights(nullptr), m_numLights(1),
+	m_fxMaterial(nullptr), m_fxLights(nullptr), m_numLights(3),
 	m_fxEyePos(nullptr), m_theta(XM_PI*1.5f),
 	m_phy(XM_PI * 0.4f),
 	m_radius(20.f)
@@ -23,13 +23,22 @@ D3Dlight::D3Dlight(HINSTANCE hInst, std::wstring title, int width, int height) :
 			XMStoreFloat4x4(&m_sphereWorld[i * 2 + j + 1], setSphere);
 		}
 	}
-	//点光源
-	m_pointLight.ambient = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
-	m_pointLight.diffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
-	m_pointLight.specular = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.f);
-	m_pointLight.att = XMFLOAT3(0.02f, 0.05f, 0.05f);
-	m_pointLight.pos = XMFLOAT3(0.f,6.f, 0.f);
-	m_pointLight.range = 20;
+	//主光源
+	m_lights[0].ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+	m_lights[0].diffuse = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	m_lights[0].specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+	m_lights[0].dir = XMFLOAT3(0.57735f, -0.57735f, 0.57735f);
+	//侧光源
+	m_lights[1].ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	m_lights[1].diffuse = XMFLOAT4(0.20f, 0.20f, 0.20f, 1.0f);
+	m_lights[1].specular = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.0f);
+	m_lights[1].dir = XMFLOAT3(-0.57735f, -0.57735f, 0.57735f);
+	//背光源
+	m_lights[2].ambient = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	m_lights[2].diffuse = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+	m_lights[2].specular = XMFLOAT4(1.f, 1.f, 1.f, 1.0f);
+	m_lights[2].dir = XMFLOAT3(0.0f, -0.707f, -0.707f);
+
 	//材质
 	m_matGrid.ambient = XMFLOAT4(1.f, 1.f, 1.f, 1.0f);
 	m_matGrid.diffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.0f);
@@ -62,9 +71,9 @@ bool D3Dlight::Init()
 	return true;
 }
 
-bool D3Dlight::Update(float delta)     //每一帧更新               
+bool D3Dlight::Update(float delta)
 {
-		m_fxPointLight->SetRawValue((void*)&m_pointLight, 0, sizeof(m_pointLight));
+		m_fxLights->SetRawValue((void*)&m_lights, 0, sizeof(m_lights));
 		//接受键盘控制
 		XMMATRIX world_sphere = XMLoadFloat4x4(&m_sphereWorld[0]);
 		world_sphere = XMMatrixMultiply(world_sphere, XMMatrixTranslation(dx*0.02f, 0, dz*0.02f));
@@ -209,13 +218,13 @@ void D3Dlight::OnKeyDown(WPARAM keyPressed) {
 	switch (keyPressed)
 	{
 	case 49:
-		m_numLights = 0;
+		m_numLights = 1;
 		return;
 	case 50:
-		m_numLights = 1;
+		m_numLights = 2;
 		return;
 	case 51:
-		m_numLights = 1;
+		m_numLights = 3;
 		return;
 	case 65:
 		dx = -1;
@@ -282,7 +291,7 @@ bool D3Dlight::BuildFX()
 	m_fxWorldViewProj = m_fx->GetVariableByName("g_worldViewProj")->AsMatrix();
 	m_fxWorld = m_fx->GetVariableByName("g_world")->AsMatrix();
 	m_fxWorldInvTranspose = m_fx->GetVariableByName("g_worldInvTranspose")->AsMatrix();
-	m_fxPointLight = m_fx->GetVariableByName("g_pointLight");
+	m_fxLights = m_fx->GetVariableByName("g_lights");
 	m_fxMaterial = m_fx->GetVariableByName("g_material");
 	m_fxEyePos = m_fx->GetVariableByName("g_eyePos");
 
