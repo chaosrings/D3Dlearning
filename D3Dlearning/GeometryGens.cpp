@@ -5,7 +5,7 @@ namespace GeoGen
 	{
 		mesh.vertices.clear();
 		mesh.indices.clear();
-
+		//测试操作
 		//一共24个顶点(每面4个)
 		mesh.vertices.resize(24);
 		//一共36个索引(每面6个)
