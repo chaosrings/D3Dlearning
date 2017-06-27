@@ -36,6 +36,12 @@
     <ClInclude Include="D3Dlight.h">
       <Filter>light</Filter>
     </ClInclude>
+    <ClInclude Include="GeometryGens.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppUtil.cpp">
@@ -49,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="D3Dlight.cpp">
       <Filter>light</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryGens.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
