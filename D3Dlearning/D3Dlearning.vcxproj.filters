@@ -27,7 +27,13 @@
     <ClInclude Include="AppUtil.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="GeometryGens.h">
+      <Filter>Common</Filter>
+    </ClInclude>
     <ClInclude Include="Lights.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="WinApp.h">
@@ -45,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppUtil.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryGens.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="WinApp.cpp">
