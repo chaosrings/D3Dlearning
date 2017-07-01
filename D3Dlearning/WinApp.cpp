@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <WindowsX.h>
-#include <d3d11_1.h>
 namespace {
 	WinApp  *g_winApp(NULL);
 	UINT    g_x4MsaaQuality;

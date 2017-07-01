@@ -15,6 +15,7 @@ struct Vertex
 {
 	XMFLOAT3 pos;
 	XMFLOAT3 normal;
+	XMFLOAT2 tex;
 };
 
 class D3Dlight :public WinApp
@@ -35,14 +36,15 @@ private:
 	bool BuildFX();
 	bool BuildInputLayout();
 	bool BuildBuffers();
-
+	bool BuildTexture();
 private:
 	ID3D11InputLayout	*m_inputLayout;
-
+	ID3D11ShaderResourceView *m_textureView;
+	
 	//顶点、索引缓冲区
 	ID3D11Buffer	*m_VertexBuffer;
 	ID3D11Buffer	*m_IndexBuffer;
-
+	
 	//Effect接口
 	ID3DX11Effect					*m_fx;
 
@@ -57,6 +59,9 @@ private:
 	ID3DX11EffectVariable			*m_fxdirLights;
 	ID3DX11EffectVariable		    *m_fxPointLight;
 	ID3DX11EffectVariable			*m_fxEyePos;
+	ID3DX11EffectShaderResourceVariable *m_fxTexture;
+
+	ID3D11Resource           *m_TextureResource;   //相当于wood.dds绑定到resource
 
 	Lights::DirLight				m_lights[3];
 	Lights::PointLight              m_pointLight;

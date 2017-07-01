@@ -2,6 +2,7 @@
 
 D3Dlight::D3Dlight(HINSTANCE hInst, std::wstring title, int width, int height) :
 	WinApp(hInst, title, width, height), m_inputLayout(nullptr),
+	m_textureView(nullptr),
 	m_VertexBuffer(nullptr), m_IndexBuffer(nullptr), m_fx(nullptr),
 	m_fxWorldViewProj(nullptr), m_fxWorld(nullptr), m_fxWorldInvTranspose(nullptr),
 	m_fxMaterial(nullptr), m_fxdirLights(nullptr), m_numLights(1),
@@ -54,6 +55,8 @@ bool D3Dlight::Init()
 		return false;
 	if (!BuildFX())
 		return false;
+	if (!BuildTexture())
+		return false;
 	if (!BuildInputLayout())
 		return false;
 	if (!BuildBuffers())
@@ -61,10 +64,16 @@ bool D3Dlight::Init()
 
 	return true;
 }
-
+bool D3Dlight::BuildTexture()
+{
+	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"Wood.dds", &m_TextureResource, &m_textureView))) //创建纹理和相应的视图
+		return false;
+	return true;
+}
 bool D3Dlight::Update(float delta)     //每一帧更新               
 {
 		m_fxPointLight->SetRawValue((void*)&m_pointLight, 0, sizeof(m_pointLight));
+		m_fxTexture->SetResource(m_textureView);
 		//接受键盘控制
 		XMMATRIX world_sphere = XMLoadFloat4x4(&m_sphereWorld[0]);
 		world_sphere = XMMatrixMultiply(world_sphere, XMMatrixTranslation(dx*0.02f, 0, dz*0.02f));
@@ -282,6 +291,10 @@ bool D3Dlight::BuildFX()
 	m_fxWorldViewProj = m_fx->GetVariableByName("g_worldViewProj")->AsMatrix();
 	m_fxWorld = m_fx->GetVariableByName("g_world")->AsMatrix();
 	m_fxWorldInvTranspose = m_fx->GetVariableByName("g_worldInvTranspose")->AsMatrix();
+	//纹理
+	m_fxTexture = m_fx->GetVariableByName("g_texture")->AsShaderResource();
+	m_fxTexture->SetResource(m_textureView);
+
 	m_fxPointLight = m_fx->GetVariableByName("g_pointLight");
 	m_fxMaterial = m_fx->GetVariableByName("g_material");
 	m_fxEyePos = m_fx->GetVariableByName("g_eyePos");
@@ -291,16 +304,17 @@ bool D3Dlight::BuildFX()
 
 bool D3Dlight::BuildInputLayout()
 {
-	D3D11_INPUT_ELEMENT_DESC iDesc[2] =
+	D3D11_INPUT_ELEMENT_DESC iDesc[3] =
 	{
 		{ "POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0, D3D11_INPUT_PER_VERTEX_DATA,0 },
-		{ "NORMAL",  0,DXGI_FORMAT_R32G32B32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0 }
+		{ "NORMAL",  0,DXGI_FORMAT_R32G32B32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0 },
+		{"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,24,D3D11_INPUT_PER_VERTEX_DATA,0 }
 	};
 
 	ID3DX11EffectTechnique *tech = m_fx->GetTechniqueByName("Light1");
 	D3DX11_PASS_DESC pDesc;
 	tech->GetPassByIndex(0)->GetDesc(&pDesc);
-	if (FAILED(m_d3dDevice->CreateInputLayout(iDesc, 2, pDesc.pIAInputSignature, pDesc.IAInputSignatureSize, &m_inputLayout)))
+	if (FAILED(m_d3dDevice->CreateInputLayout(iDesc, 3, pDesc.pIAInputSignature, pDesc.IAInputSignatureSize, &m_inputLayout)))
 	{
 		MessageBox(NULL, L"CreateInputLayout failed!", L"Error", MB_OK);
 		return false;
@@ -328,11 +342,13 @@ bool D3Dlight::BuildBuffers()
 	{
 		vertices[m_gridVStart + i].pos = m_grid.vertices[i].pos;
 		vertices[m_gridVStart + i].normal = m_grid.vertices[i].normal;
+		vertices[m_gridVStart + i].tex = m_grid.vertices[i].tex;
 	}
 	for (UINT i = 0; i < m_sphere.vertices.size(); i++)
 	{
 		vertices[m_sphereVStart + i].pos = m_sphere.vertices[i].pos;
 		vertices[m_sphereVStart + i].normal = m_sphere.vertices[i].normal;
+		vertices[m_sphereVStart + i].tex = m_sphere.vertices[i].tex;
 	}
 	
 	for (UINT i = 0; i < m_grid.indices.size(); i++)

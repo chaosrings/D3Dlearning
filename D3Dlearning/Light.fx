@@ -13,7 +13,7 @@ struct DirLight
 //点光源
 struct PointLight
 {
-	float4	ambient;	//环境光
+	float4	ambient;	//环境光 
 	float4	diffuse;	//漫反射光
 	float4	specular;	//高光
 

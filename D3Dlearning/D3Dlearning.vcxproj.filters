@@ -22,6 +22,9 @@
     <Filter Include="light">
       <UniqueIdentifier>{a452f503-c119-44fe-bf0f-fc5b650b4c64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{f12b661d-6c23-4c48-9581-cb0a2a54d693}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppUtil.h">
@@ -46,6 +49,9 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Timer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSTextureLoader.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,6 +80,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="DDSTextureLoader.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -88,5 +97,10 @@
     <CustomBuild Include="BasicColor.fx">
       <Filter>FX</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Wood.dds">
+      <Filter>Texture</Filter>
+    </Image>
   </ItemGroup>
 </Project>
