@@ -25,6 +25,9 @@
     <Filter Include="Texture">
       <UniqueIdentifier>{f12b661d-6c23-4c48-9581-cb0a2a54d693}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Blending">
+      <UniqueIdentifier>{4fb7e6e8-06cb-4036-a12d-4ae4c496fe3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppUtil.h">
@@ -53,6 +56,12 @@
     </ClInclude>
     <ClInclude Include="DDSTextureLoader.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DBlending.h">
+      <Filter>Blending</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Blending</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +92,12 @@
     <ClCompile Include="DDSTextureLoader.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Blending</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DBlending.cpp">
+      <Filter>Blending</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -95,6 +110,9 @@
       <Filter>FX</Filter>
     </CustomBuild>
     <CustomBuild Include="BasicColor.fx">
+      <Filter>FX</Filter>
+    </CustomBuild>
+    <CustomBuild Include="basicBlend.fx">
       <Filter>FX</Filter>
     </CustomBuild>
   </ItemGroup>

@@ -151,8 +151,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AppUtil.h" />
+    <ClInclude Include="D3DBlending.h" />
     <ClInclude Include="D3Dlight.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="GeometryGens.h" />
     <ClInclude Include="Lights.h" />
     <ClInclude Include="Timer.h" />
@@ -160,8 +162,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppUtil.cpp" />
+    <ClCompile Include="D3DBlending.cpp" />
     <ClCompile Include="D3Dlight.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="GeometryGens.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -215,6 +219,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Wood.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="basicBlend.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(Filename).fxo"  "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Filename).fxo</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
