@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <WindowsX.h>
+
 namespace {
 	WinApp  *g_winApp(NULL);
 	UINT    g_x4MsaaQuality;
@@ -30,14 +31,14 @@ m_depthStencilView(NULL)
 	//初始化全局对象（指针）
 	g_winApp = this;
 
-	//	//在debug模式下，我们打开控制台，显示一些有用的信息
-	//#if defined(debug) || defined(_debug)
-	//	file *f(null);
-	//	if (allocconsole())
-	//	{
-	//		freopen_s(&f, "conout$", "w", stdout);
-	//	}
-	//#endif
+		//在debug模式下，我们打开控制台，显示一些有用的信息
+	#if defined(debug) || defined(_debug)
+		file *f(null);
+		if (allocconsole())
+		{
+			freopen_s(&f, "conout$", "w", stdout);
+		}
+	#endif
 }
 WinApp::~WinApp()
 {

@@ -1,7 +1,7 @@
 #include "Effect.h"
 bool Effect::initEffect(ID3D11Device* pd3d11Device,wstring fxFileName)
 {
-	ifstream fxFile(fxFileName, ios::binary);
+	ifstream fxFile("basicBlend.fxo", ios::binary);
 	if (!fxFile)
 	{
 		MessageBox(NULL, L"fxFile miss!", L"Error", MB_OK);
@@ -22,10 +22,6 @@ bool Effect::initEffect(ID3D11Device* pd3d11Device,wstring fxFileName)
 	m_fxWorldViewProj = m_fx->GetVariableByName("g_worldViewProj")->AsMatrix();
 	return true;
 }
-void Effect::setWorldViewProj(XMMATRIX worldviewproj)
-{
-	m_fxWorldViewProj->SetMatrix(reinterpret_cast<float*>(&worldviewproj));
-}
 
 
 
@@ -35,7 +31,7 @@ bool BlendEffect::initBlendEffect(ID3D11Device* pd3d11Device, wstring fxFileName
 		return false;
 	//ÎïÌå
 	m_fxWorld = m_fx->GetVariableByName("g_world")->AsMatrix();
-	m_fxWorldInvTranspose = m_fx->GetVariableByName("worldInvTranspose")->AsMatrix();
+	m_fxWorldInvTranspose = m_fx->GetVariableByName("g_worldInvTranspose")->AsMatrix();
 	m_fxMaterial = m_fx->GetVariableByName("g_material");
 	m_fxTexTrans = m_fx->GetVariableByName("g_texTrans")->AsMatrix();
 	//ÎÆÀí
@@ -49,21 +45,17 @@ bool BlendEffect::initBlendEffect(ID3D11Device* pd3d11Device, wstring fxFileName
 	m_techNoLight = m_fx->GetTechniqueByName("NoLight");
 	m_techTexLight = m_fx->GetTechniqueByName("TexLight");
 
-	if (!initInputLayout(pd3d11Device))
-		return false;
-	return true;
-}
-
-bool  BlendEffect::initInputLayout(ID3D11Device* pd3d11Device)
-{
+	//
 	D3D11_INPUT_ELEMENT_DESC iDesc[3] =
 	{
 		{ "POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0, D3D11_INPUT_PER_VERTEX_DATA,0 },
 		{ "NORMAL",  0,DXGI_FORMAT_R32G32B32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0 },
 		{ "TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,24,D3D11_INPUT_PER_VERTEX_DATA,0 }
 	};
+
+	ID3DX11EffectTechnique *tech = m_fx->GetTechniqueByName("TexLight");
 	D3DX11_PASS_DESC pDesc;
-	m_techNoTex->GetPassByIndex(0)->GetDesc(&pDesc);
+	tech->GetPassByIndex(0)->GetDesc(&pDesc);
 	if (FAILED(pd3d11Device->CreateInputLayout(iDesc, 3, pDesc.pIAInputSignature, pDesc.IAInputSignatureSize, &m_inputLayout)))
 	{
 		MessageBox(NULL, L"CreateInputLayout failed!", L"Error", MB_OK);

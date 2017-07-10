@@ -25,6 +25,8 @@ SamplerState samTex
 {
     Filter   = uint(ANISOTROPIC /* 85 */);
     MaxAnisotropy = uint(4);
+    AddressU = uint(WRAP /* 1 */);
+    AddressV = uint(WRAP /* 1 */);
 };
 
 //
@@ -112,7 +114,7 @@ fxgroup
                 //   o1.x <- <VS return value>.posH.x; o1.y <- <VS return value>.posH.y; o1.z <- <VS return value>.posH.z; o1.w <- <VS return value>.posH.w; 
                 //   o0.x <- <VS return value>.posTrans.x; o0.y <- <VS return value>.posTrans.y; o0.z <- <VS return value>.posTrans.z
                 //
-                #line 43 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 45 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r0.xyz, v0.xyzx
                 mov r0.w, l(1.000000)
                 dp4 r1.x, r0.xyzw, cb0[4].xyzw  // r1.x <- vout.posTrans.x
@@ -202,13 +204,13 @@ fxgroup
                 //   v3.x <- pin.tex.x; v3.y <- pin.tex.y; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 61 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 63 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r0.xyz, l(1.000000,1.000000,1.000000,0)  // r0.x <- A.x; r0.y <- A.y; r0.z <- A.z
                 mov r1.xyz, l(0,0,0,0)  // r1.x <- D.x; r1.y <- D.y; r1.z <- D.z
                 mov r2.xyz, l(0,0,0,0)  // r2.x <- S.x; r2.y <- S.y; r2.z <- S.z
                 sample_indexable(texture2d)(float,float,float,float) r3.xyzw, v3.xyxx, t0.xyzw, s0  // r3.x <- texColor.x; r3.y <- texColor.y; r3.z <- texColor.z; r3.w <- texColor.w
                 
-                #line 76
+                #line 78
                 add r0.xyz, r0.xyzx, r1.xyzx
                 mul r0.xyz, r0.xyzx, r3.xyzx
                 add r0.xyz, r2.xyzx, r0.xyzx  // r0.x <- litColor.x; r0.y <- litColor.y; r0.z <- litColor.z
@@ -300,7 +302,7 @@ fxgroup
                 //   o1.x <- <VS return value>.posH.x; o1.y <- <VS return value>.posH.y; o1.z <- <VS return value>.posH.z; o1.w <- <VS return value>.posH.w; 
                 //   o0.x <- <VS return value>.posTrans.x; o0.y <- <VS return value>.posTrans.y; o0.z <- <VS return value>.posTrans.z
                 //
-                #line 43 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 45 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r0.xyz, v0.xyzx
                 mov r0.w, l(1.000000)
                 dp4 r1.x, r0.xyzw, cb0[4].xyzw  // r1.x <- vout.posTrans.x
@@ -413,25 +415,25 @@ fxgroup
                 //   v3.x <- pin.tex.x; v3.y <- pin.tex.y; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 53 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 55 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r0.xyz, -v0.xyzx
                 add r0.xyz, r0.xyzx, cb1[5].xyzx  // r0.x <- toEye.x; r0.y <- toEye.y; r0.z <- toEye.z
                 dp3 r0.w, r0.xyzx, r0.xyzx
                 rsq r0.w, r0.w
                 mul r0.xyz, r0.wwww, r0.xyzx
                 
-                #line 57
+                #line 59
                 dp3 r0.w, v2.xyzx, v2.xyzx
                 rsq r0.w, r0.w
                 mul r1.xyz, r0.wwww, v2.xyzx  // r1.x <- normal.x; r1.y <- normal.y; r1.z <- normal.z
                 
-                #line 61
+                #line 63
                 mov r2.xyz, l(1.000000,1.000000,1.000000,0)  // r2.x <- A.x; r2.y <- A.y; r2.z <- A.z
                 mov r3.xyz, l(0,0,0,0)  // r3.x <- D.x; r3.y <- D.y; r3.z <- D.z
                 mov r4.xyz, l(0,0,0,0)  // r4.x <- S.x; r4.y <- S.y; r4.z <- S.z
                 sample_indexable(texture2d)(float,float,float,float) r5.xyzw, v3.xyxx, t0.xyzw, s0  // r5.x <- texColor.x; r5.y <- texColor.y; r5.z <- texColor.z; r5.w <- texColor.w
                 
-                #line 70
+                #line 72
                 nop 
                 mov r6.xyz, cb0[12].xyzx
                 mov r7.xyz, cb0[13].xyzx
@@ -510,7 +512,7 @@ fxgroup
                   endif 
                 endif 
                 
-                #line 70 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 72 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r15.xyz, r15.xyzx  // r15.x <- ambient.x; r15.y <- ambient.y; r15.z <- ambient.z
                 mov r16.xyz, r16.xyzx  // r16.x <- diff.x; r16.y <- diff.y; r16.z <- diff.z
                 mov r17.xyz, r17.xyzx  // r17.x <- spec.x; r17.y <- spec.y; r17.z <- spec.z
@@ -518,7 +520,7 @@ fxgroup
                 add r1.xyz, r3.xyzx, r16.xyzx  // r1.x <- D.x; r1.y <- D.y; r1.z <- D.z
                 add r2.xyz, r4.xyzx, r17.xyzx  // r2.x <- S.x; r2.y <- S.y; r2.z <- S.z
                 
-                #line 76
+                #line 78
                 add r0.xyz, r0.xyzx, r1.xyzx
                 mul r0.xyz, r0.xyzx, r5.xyzx
                 add r0.xyz, r2.xyzx, r0.xyzx  // r0.x <- litColor.x; r0.y <- litColor.y; r0.z <- litColor.z
@@ -610,7 +612,7 @@ fxgroup
                 //   o1.x <- <VS return value>.posH.x; o1.y <- <VS return value>.posH.y; o1.z <- <VS return value>.posH.z; o1.w <- <VS return value>.posH.w; 
                 //   o0.x <- <VS return value>.posTrans.x; o0.y <- <VS return value>.posTrans.y; o0.z <- <VS return value>.posTrans.z
                 //
-                #line 43 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 45 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r0.xyz, v0.xyzx
                 mov r0.w, l(1.000000)
                 dp4 r1.x, r0.xyzw, cb0[4].xyzw  // r1.x <- vout.posTrans.x
@@ -723,22 +725,22 @@ fxgroup
                 //   v3.x <- pin.tex.x; v3.y <- pin.tex.y; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 50 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 52 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r0.x, l(2)  // r0.x <- numLights
                 
-                #line 53
+                #line 55
                 mov r0.yzw, -v0.xxyz
                 add r0.yzw, r0.yyzw, cb1[5].xxyz  // r0.y <- toEye.x; r0.z <- toEye.y; r0.w <- toEye.z
                 dp3 r1.x, r0.yzwy, r0.yzwy
                 rsq r1.x, r1.x
                 mul r0.yzw, r0.yyzw, r1.xxxx
                 
-                #line 57
+                #line 59
                 dp3 r1.x, v2.xyzx, v2.xyzx
                 rsq r1.x, r1.x
                 mul r1.xyz, r1.xxxx, v2.xyzx  // r1.x <- normal.x; r1.y <- normal.y; r1.z <- normal.z
                 
-                #line 61
+                #line 63
                 mov r2.xyz, l(1.000000,1.000000,1.000000,0)  // r2.x <- A.x; r2.y <- A.y; r2.z <- A.z
                 mov r3.xyz, l(0,0,0,0)  // r3.x <- D.x; r3.y <- D.y; r3.z <- D.z
                 mov r4.xyz, l(0,0,0,0)  // r4.x <- S.x; r4.y <- S.y; r4.z <- S.z
@@ -752,7 +754,7 @@ fxgroup
                   ilt r3.w, r2.w, r0.x
                   breakc_z r3.w
                 
-                #line 70
+                #line 72
                   nop 
                   mov r9.xyz, cb0[12].xyzx
                   mov r10.xyz, cb0[13].xyzx
@@ -831,7 +833,7 @@ fxgroup
                     endif 
                   endif 
                 
-                #line 70 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 72 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                   mov r20.xyz, r20.xyzx  // r20.x <- ambient.x; r20.y <- ambient.y; r20.z <- ambient.z
                   mov r21.xyz, r21.xyzx  // r21.x <- diff.x; r21.y <- diff.y; r21.z <- diff.z
                   mov r22.xyz, r22.xyzx  // r22.x <- spec.x; r22.y <- spec.y; r22.z <- spec.z
@@ -931,7 +933,7 @@ fxgroup
                 //   o1.x <- <VS return value>.posH.x; o1.y <- <VS return value>.posH.y; o1.z <- <VS return value>.posH.z; o1.w <- <VS return value>.posH.w; 
                 //   o0.x <- <VS return value>.posTrans.x; o0.y <- <VS return value>.posTrans.y; o0.z <- <VS return value>.posTrans.z
                 //
-                #line 43 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 45 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r0.xyz, v0.xyzx
                 mov r0.w, l(1.000000)
                 dp4 r1.x, r0.xyzw, cb0[4].xyzw  // r1.x <- vout.posTrans.x
@@ -1044,22 +1046,22 @@ fxgroup
                 //   v3.x <- pin.tex.x; v3.y <- pin.tex.y; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 50 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 52 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                 mov r0.x, l(3)  // r0.x <- numLights
                 
-                #line 53
+                #line 55
                 mov r0.yzw, -v0.xxyz
                 add r0.yzw, r0.yyzw, cb1[5].xxyz  // r0.y <- toEye.x; r0.z <- toEye.y; r0.w <- toEye.z
                 dp3 r1.x, r0.yzwy, r0.yzwy
                 rsq r1.x, r1.x
                 mul r0.yzw, r0.yyzw, r1.xxxx
                 
-                #line 57
+                #line 59
                 dp3 r1.x, v2.xyzx, v2.xyzx
                 rsq r1.x, r1.x
                 mul r1.xyz, r1.xxxx, v2.xyzx  // r1.x <- normal.x; r1.y <- normal.y; r1.z <- normal.z
                 
-                #line 61
+                #line 63
                 mov r2.xyz, l(1.000000,1.000000,1.000000,0)  // r2.x <- A.x; r2.y <- A.y; r2.z <- A.z
                 mov r3.xyz, l(0,0,0,0)  // r3.x <- D.x; r3.y <- D.y; r3.z <- D.z
                 mov r4.xyz, l(0,0,0,0)  // r4.x <- S.x; r4.y <- S.y; r4.z <- S.z
@@ -1073,7 +1075,7 @@ fxgroup
                   ilt r3.w, r2.w, r0.x
                   breakc_z r3.w
                 
-                #line 70
+                #line 72
                   nop 
                   mov r9.xyz, cb0[12].xyzx
                   mov r10.xyz, cb0[13].xyzx
@@ -1152,7 +1154,7 @@ fxgroup
                     endif 
                   endif 
                 
-                #line 70 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
+                #line 72 "C:\Users\ashone\Documents\Visual Studio 2015\Projects\D3Dlearning\D3Dlearning\BasicLight.fx"
                   mov r20.xyz, r20.xyzx  // r20.x <- ambient.x; r20.y <- ambient.y; r20.z <- ambient.z
                   mov r21.xyz, r21.xyzx  // r21.x <- diff.x; r21.y <- diff.y; r21.z <- diff.z
                   mov r22.xyz, r22.xyzx  // r22.x <- spec.x; r22.y <- spec.y; r22.z <- spec.z

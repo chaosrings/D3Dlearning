@@ -1,9 +1,11 @@
-#include "D3Dlight.h"
+#include "D3DBlending.h"
+//#include "D3Dlight.h"
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow)
 {
-	D3Dlight saythelight(hInstance);
-	saythelight.Init();
 
-	return saythelight.Run();
+	D3DBlending db(hInstance);
+	if (!db.Init())
+		return -1;
+	return db.Run();
 }
 

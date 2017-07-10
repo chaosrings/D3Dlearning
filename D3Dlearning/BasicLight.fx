@@ -14,6 +14,8 @@ SamplerState samTex
 {
 	Filter = ANISOTROPIC;
 	MaxAnisotropy = 4;
+	AddressU = Wrap;
+	AddressV = Wrap;
 };
 
 //’Î∂‘√ø“ª÷°

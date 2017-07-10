@@ -7,13 +7,6 @@ cbuffer PerObject
 	Material g_material;
 	float4x4 g_texTrans;
 };
-
-cbuffer PerFrame
-{
-	PointLight g_pointLight;
-	float3     g_eyePos;
-};
-
 Texture2D g_tex;
 SamplerState samplerTex
 {
@@ -22,29 +15,37 @@ SamplerState samplerTex
 	AddressU = Wrap;
 	AddressV = Wrap;
 };
+cbuffer PerFrame
+{
+	PointLight g_pointLight;
+	float3     g_eyePos;
+};
+
+
 //变换前的坐标，法线，纹理坐标
 struct VertexIn
 {
-	float3 pos		:POSITION;
-	float3 normal   :NORMAL;
-	float2 tex		:TEXCOORD;
+	float3	pos		: POSITION;		//顶点坐标
+	float3	normal	: NORMAL;		//顶点法线
+	float2  tex     : TEXCOORD;    //纹理
 };
 //经过世界视角透视变换后的位置，法线，纹理坐标
 struct VertexOut
 {
-	float3 posTrans :POSITION;
-	float4 posH     :SV_POSITION;
-	float3 normal   :NORMAL;
-	float2 tex		:TEXCOORD;
+	float3	posTrans : POSITION;		//世界变换后的坐标
+	float4	posH	 : SV_POSITION;		//投影后的坐标
+	float3	normal	 : NORMAL;			//世界变换后s的顶点法线
+	float2  tex      : TEXCOORD;
 };
 
 VertexOut VS(VertexIn vin)
 {
 	VertexOut vout;
 	vout.posTrans = mul(float4(vin.pos, 1.f), g_world).xyz;
-	vout.posH = mul(float4(vin.pos, 1.f), g_world);
+	vout.posH = mul(float4(vin.pos, 1.f), g_worldViewProj);
 	vout.normal = mul(vin.normal, (float3x3)g_worldInvTranspose);
 	vout.tex = mul(float4(vin.tex, 0.f, 1.f), g_texTrans).xy;
+	
 	return vout;
 }
 

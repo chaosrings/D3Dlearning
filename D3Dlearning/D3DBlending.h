@@ -2,6 +2,13 @@
 #include "WinApp.h"
 #include "Effect.h"
 #include "GeometryGens.h"
+struct Vertex
+{
+	XMFLOAT3 pos;
+	XMFLOAT3 normal;
+	XMFLOAT2 tex;
+};
+
 class D3DBlending : public WinApp
 {
 protected:
@@ -9,7 +16,7 @@ protected:
 public:
 	D3DBlending(HINSTANCE hInst, std::wstring title = L"d3dLearning", int width = 1024, int height = 720);
 	~D3DBlending();
-	bool BuildBuffer();
+	
 	bool Init();
 	bool Update(float delta);
 	bool Render();
@@ -21,13 +28,12 @@ public:
 	void OnKeyUp(WPARAM keyPressed);
 
 private:
-	bool BuildBuffers();
+	BlendEffect*   m_effect;
 	bool BuildShaderResourceView();
-
+	bool BuildBuffers();
+	
 	ID3D11Buffer	*m_VB;
 	ID3D11Buffer	*m_IB;
-
-	BlendEffect     *m_effect;
 
 	Lights::PointLight  m_pointLight;
 	
@@ -40,9 +46,13 @@ private:
 	Lights::Material m_materialBox;
 
 	ID3D11ShaderResourceView *m_SRVBasin;
+	ID3D11Resource           *m_RBasin;
 	ID3D11ShaderResourceView *m_SRVBasinBottom;
+	ID3D11Resource           *m_RBasinBottom;
 	ID3D11ShaderResourceView *m_SRVWater;
+	ID3D11Resource           *m_RWater;
 	ID3D11ShaderResourceView *m_SRVBox;
+	ID3D11Resource           *m_RBox;
 
 
 	XMFLOAT4X4 m_worldBasin;
@@ -72,6 +82,7 @@ private:
 	UINT	m_basinICount, m_basinBICount;		//水池壁、水池底的索引个数
 	UINT	m_boxVStart, m_boxIStart;			//箱子的顶点、索引开始处
 	UINT	m_waterVStart, m_waterIStart;		//水面的顶点、索引开始处
+	
 
 	//鼠标控制参数
 	float	m_theta, m_phy;

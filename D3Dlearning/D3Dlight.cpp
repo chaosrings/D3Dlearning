@@ -99,7 +99,7 @@ bool D3Dlight::Update(float delta)     //每一帧更新
 		for (int i = 1; i <= 4; i++)
 		{
 			world_sphere = XMLoadFloat4x4(&m_sphereWorld[i]);
-			world_sphere = world_sphere*XMMatrixRotationY(delta*XM_PI*0.125);
+			world_sphere = world_sphere*XMMatrixRotationY(delta*XM_PI*0.125f);
 			XMStoreFloat4x4(&m_sphereWorld[i], world_sphere);
 		}
 		XMVECTOR pos = XMVectorSet(m_radius*sin(m_phy)*cos(m_theta), m_radius*cos(m_phy), m_radius*sin(m_phy)*sin(m_theta), 1.f);

@@ -18,16 +18,20 @@ public:
 	virtual ~Effect()
 	{
 		if (m_fx != nullptr)
-			m_fx->Release;
-		if (m_fxWorldViewProj != nullptr)
-			m_fxWorldViewProj->Release;
+			m_fx->Release();
 	}
 	bool initEffect(ID3D11Device* pd3d11Device, wstring fxFileName);
-	void setWorldViewProj(XMMATRIX worldviewproj);
+	void Effect::setWorldViewProj(CXMMATRIX worldviewproj)
+	{
+		m_fxWorldViewProj->SetMatrix(reinterpret_cast<const float*>(&worldviewproj));
+	}
+
 };
 class BlendEffect:public Effect 
 {
 protected:
+
+
 	//每个物体
 	ID3DX11EffectMatrixVariable		*m_fxWorld;   //世界变换矩阵，在effect中用于求出点到观察点的向量
 	ID3DX11EffectMatrixVariable		*m_fxWorldInvTranspose;   //世界变换举证的逆矩阵的转置，effect中用于更新顶点法线
@@ -37,20 +41,14 @@ protected:
 
 	//针对每一帧
 	ID3DX11EffectVariable		    *m_fxPointLight;    //点光源
-	ID3DX11EffectVariable			*m_fxEyePos;        //观察点，用于更新观察点
+	ID3DX11EffectVariable			*m_fxEyePos;        //观察点，用于更新观察
+	ID3D11InputLayout				*m_inputLayout;
+public:
 
 	ID3DX11EffectTechnique          *m_techNoTex;
 	ID3DX11EffectTechnique          *m_techNoLight;
 	ID3DX11EffectTechnique          *m_techTexLight;
-	 
 
-
-	ID3D11InputLayout				*m_inputLayout;
-private:
-	bool initInputLayout(ID3D11Device* pd3d11Device);
-	
-
-public:
 	BlendEffect() :Effect(),
 		m_fxWorld(nullptr), m_fxWorldInvTranspose(nullptr),
 		m_fxMaterial(nullptr),m_fxTexTrans(nullptr),
@@ -60,30 +58,24 @@ public:
 		m_techNoTex(nullptr),m_techNoLight(nullptr),m_techTexLight(nullptr)
 	{};
 	~BlendEffect()
-	{
-		SafeRelease(m_fxWorld);
-		SafeRelease(m_fxWorldInvTranspose);
-		SafeRelease(m_fxMaterial);
-		SafeRelease(m_fxTexTrans);
-		SafeRelease(m_fxPointLight);
-		SafeRelease(m_fxEyePos);
-		SafeRelease(m_fxSR);
-		SafeRelease(m_techNoTex);
-		SafeRelease(m_techNoLight);
-		SafeRelease(m_techTexLight);
-
-		SafeRelease(m_inputLayout);
-	}
-
+	{}
 	bool initBlendEffect(ID3D11Device* pd3d11Device, wstring fxFileName);
-	void setWorldMatrix(XMMATRIX world) { m_fxWorld->SetMatrix(reinterpret_cast<float*>(&world)); }
-	void setWorldInvTranspose(XMMATRIX worldInvTranspose) { m_fxWorldInvTranspose->SetMatrix(reinterpret_cast<float*>(&worldInvTranspose)); }
-	void setMaterial(Lights::Material material) { m_fxMaterial->SetRawValue(&material, 0, sizeof(Lights::Material)); }
-	void setTexTrans(XMMATRIX texTrans) { m_fxTexTrans->SetMatrix(reinterpret_cast<float*>(&texTrans)); }
+	void setWorldMatrix(CXMMATRIX world) { m_fxWorld->SetMatrix(reinterpret_cast<const float*>(&world)); }
+	void setWorldInvTranspose(CXMMATRIX worldInvTranspose) { m_fxWorldInvTranspose->SetMatrix(reinterpret_cast<const float*>(&worldInvTranspose)); }
+	void setMaterial(Lights::Material material) { m_fxMaterial->SetRawValue((void*)&material, 0, sizeof(material)); }
+	void setTexTrans(CXMMATRIX texTrans) { m_fxTexTrans->SetMatrix(reinterpret_cast<const float*>(&texTrans)); }
 	void setPointLight(Lights::PointLight pointlight) 
 	{
-		m_fxPointLight->SetRawValue(&pointlight, 0, sizeof(Lights::PointLight));
+		m_fxPointLight->SetRawValue((void*)&pointlight, 0, sizeof(pointlight));
 	}
-	void setEyePos(XMFLOAT3 eyepos) { m_fxEyePos->SetRawValue(&eyepos, 0, sizeof(eyepos)); }
+	void setEyePos(XMFLOAT3 eyepos) { m_fxEyePos->SetRawValue((void*)&eyepos, 0, sizeof(eyepos)); }
 	void setShaderResourceView(ID3D11ShaderResourceView *srv) { m_fxSR->SetResource(srv); }
+	ID3DX11Effect* getFX()
+	{
+		return m_fx;
+	}
+	ID3D11InputLayout* getInputLayout()
+	{
+		return m_inputLayout;
+	}
 };

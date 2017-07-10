@@ -44,10 +44,12 @@ namespace Colors
 };
 #define takeoffSpeed 14.f
 
-XMMATRIX InverseTranspose(XMMATRIX I)
+inline XMMATRIX InverseTranspose(CXMMATRIX m)
 {
-	XMVECTOR det = XMMatrixDeterminant(I);
-	XMMATRIX InvTranspose = XMMatrixTranspose(XMMatrixInverse(&det, I));
-	return InvTranspose;
+	XMMATRIX tmp = m;
+	tmp.r[3] = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+
+	return XMMatrixTranspose(XMMatrixInverse(&XMMatrixDeterminant(tmp), tmp));
 }
+
 #endif
