@@ -30,98 +30,99 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppUtil.h">
+    <ClInclude Include="Common\AppUtil.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="GeometryGens.h">
+    <ClInclude Include="Common\WinApp.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Lights.h">
+    <ClInclude Include="Common\DDSTextureLoader.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
+    <ClInclude Include="Common\GeometryGens.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="WinApp.h">
+    <ClInclude Include="Common\Effect.h">
+      <Filter>Blending</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Lights.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="D3Dlight.h">
+    <ClInclude Include="Common\RenderStates.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Timer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Blending\D3DBlending.h">
+      <Filter>Blending</Filter>
+    </ClInclude>
+    <ClInclude Include="Light\D3Dlight.h">
       <Filter>light</Filter>
     </ClInclude>
-    <ClInclude Include="GeometryGens.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="DDSTextureLoader.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="D3DBlending.h">
-      <Filter>Blending</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>Blending</Filter>
+    <ClInclude Include="Mirror\MirrorDemo.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AppUtil.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="GeometryGens.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="WinApp.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="D3Dlight.cpp">
+    <ClCompile Include="Common\AppUtil.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\WinApp.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\DDSTextureLoader.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GeometryGens.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Effect.cpp">
+      <Filter>Blending</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\RenderStates.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Timer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Blending\D3DBlending.cpp">
+      <Filter>Blending</Filter>
+    </ClCompile>
+    <ClCompile Include="Light\D3Dlight.cpp">
       <Filter>light</Filter>
     </ClCompile>
-    <ClCompile Include="GeometryGens.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="DDSTextureLoader.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>Blending</Filter>
-    </ClCompile>
-    <ClCompile Include="D3DBlending.cpp">
-      <Filter>Blending</Filter>
+    <ClCompile Include="Mirror\MirrorDemo.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="BasicLight.fx">
+    <CustomBuild Include="FX\BasicLight.fx">
       <Filter>FX</Filter>
     </CustomBuild>
-    <CustomBuild Include="Light.fx">
+    <CustomBuild Include="FX\Light.fx">
       <Filter>FX</Filter>
     </CustomBuild>
-    <CustomBuild Include="basicBlend.fx">
+    <CustomBuild Include="FX\Basic.fx">
       <Filter>FX</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Wood.dds">
+    <Image Include="Texture\water.dds">
       <Filter>Texture</Filter>
     </Image>
-    <Image Include="checkboard.dds">
+    <Image Include="Texture\Wood.dds">
       <Filter>Texture</Filter>
     </Image>
-    <Image Include="water.dds">
+    <Image Include="Texture\checkboard.dds">
       <Filter>Texture</Filter>
     </Image>
+    <Image Include="Texture\ice.dds" />
   </ItemGroup>
 </Project>

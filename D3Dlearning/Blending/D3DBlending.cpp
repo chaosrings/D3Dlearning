@@ -8,12 +8,17 @@ D3DBlending::D3DBlending(HINSTANCE hInst, wstring title, int width, int height)
 	m_radius(8.f)
 {
 	m_effect = new BlendEffect();
+	techSelected = 0;
 	m_pointLight.ambient = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
 	m_pointLight.diffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
 	m_pointLight.specular = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.f);
 	m_pointLight.att = XMFLOAT3(0.01f, 0.025f, 0.025f);
 	m_pointLight.pos = XMFLOAT3(2.f, 6.f, 2.f);
 	m_pointLight.range = 50;
+
+	XMStoreFloat4(&fogColor, Colors::Silver);
+	fogStart = 1.4f;
+	fogRange = 20.f;
 
 	m_materialBasin.ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
 	m_materialBasin.diffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.0f);
@@ -24,7 +29,7 @@ D3DBlending::D3DBlending(HINSTANCE hInst, wstring title, int width, int height)
 	m_materialBox.specular = XMFLOAT4(0.3f, 0.3f, 0.3f, 16.0f);
 
 	m_materialWater.ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
-	m_materialWater.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);
+	m_materialWater.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.7f);
 	m_materialWater.specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 32.0f);
 
 	XMMATRIX I = XMMatrixIdentity();
@@ -147,23 +152,23 @@ bool D3DBlending::BuildBuffers()
 }
 bool D3DBlending::BuildShaderResourceView()
 {
-	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"checkboard.dds", &m_RBasin, &m_SRVBasin)))
+	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"Texture//checkboard.dds", &m_RBasin, &m_SRVBasin)))
 	{
 
 		MessageBox(NULL, L"Create SRV of basin failed!", L"Error", MB_OK);
 		return false;
 	}
-	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"checkboard.dds", &m_RBasinBottom, &m_SRVBasinBottom)))
+	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"Texture//checkboard.dds", &m_RBasinBottom, &m_SRVBasinBottom)))
 	{
 		MessageBox(NULL, L"Create SRV of basin bottom failed!", L"Error", MB_OK);
 		return false;
 	}
-	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"water.dds", &m_RWater, &m_SRVWater)))
+	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"Texture//water.dds", &m_RWater, &m_SRVWater)))
 	{
 		MessageBox(NULL, L"Create SRV of water failed!", L"Error", MB_OK);
 		return false;
 	}
-	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"Wood.dds", &m_RBox, &m_SRVBox)))
+	if (FAILED(CreateDDSTextureFromFile(m_d3dDevice, L"Texture//Wood.dds", &m_RBox, &m_SRVBox)))
 	{
 		MessageBox(NULL, L"Create SRV of box failed!", L"Error", MB_OK);
 		return false;
@@ -175,7 +180,7 @@ bool D3DBlending::Init()
 {
 	if (!WinApp::Init())
 		return false;
-	if (!m_effect->initBlendEffect(m_d3dDevice, L"basicBlend.fxo"))
+	if (!m_effect->initBlendEffect(m_d3dDevice, L"FX//basicBlend.fxo"))
 		return false;
 	if (!BuildShaderResourceView())
 		return false;
@@ -206,6 +211,10 @@ bool D3DBlending::Update(float delta)
 
 	m_effect->setPointLight(m_pointLight);
 
+	m_effect->setFogColor(fogColor);
+	m_effect->setFogStart(fogStart);
+	m_effect->setFogRange(fogRange);
+
 	XMFLOAT3 eye;
 	XMStoreFloat3(&eye, eyePos);
 	m_effect->setEyePos(eye);
@@ -222,9 +231,24 @@ bool D3DBlending::Render()
 	m_deviceContext->IASetIndexBuffer(m_IB, DXGI_FORMAT_R32_UINT, 0);
 	m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	D3DX11_TECHNIQUE_DESC techDesc;
-	ID3DX11EffectTechnique *tech = m_effect->m_techTexLight;
-	tech->GetDesc(&techDesc);
+	ID3DX11EffectTechnique *tech = nullptr;
+	switch (techSelected)
+	{
+	case 0:
+		tech = m_effect->m_techNoLight;
+		break;
+	case 1:
+		tech = m_effect->m_techNoTex;
+		break;
+	case 2:
+		tech = m_effect->m_techTexLight;
+		break;
+	case 3:
+		tech = m_effect->m_techTexLightFog;
+		break;
+	default:
+		break;
+	}
 
 	ID3D11RasterizerState *CounterClockFrontRS;
 	D3D11_RASTERIZER_DESC ccfDesc;
@@ -327,5 +351,23 @@ void D3DBlending::OnMouseMove(WPARAM btnState, int x, int y)
 	m_lastPos.x = x;
 	m_lastPos.y = y;
 }
-void D3DBlending::OnKeyDown(WPARAM keyPressed) {}
+void D3DBlending::OnKeyDown(WPARAM keyPressed) {
+	switch (keyPressed)
+	{
+	case '1':
+		techSelected = 0;
+		return;
+	case '2':
+		techSelected = 1;
+		return;
+	case '3':
+		techSelected = 2;
+		return;
+	case '4':
+		techSelected = 3;
+		return;
+	default:
+		break;
+	}
+}
 void D3DBlending::OnKeyUp(WPARAM keyPressed) {}

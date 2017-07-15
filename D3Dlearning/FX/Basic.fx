@@ -19,6 +19,9 @@ cbuffer PerFrame
 {
 	PointLight g_pointLight;
 	float3     g_eyePos;
+	float4     g_fogColor;
+	float      g_fogStart;
+	float      g_fogRange;
 };
 
 
@@ -49,15 +52,22 @@ VertexOut VS(VertexIn vin)
 	return vout;
 }
 
-float4 PS(VertexOut pin,uniform int useLight,uniform bool useTexture):SV_TARGET
+float4 PS(VertexOut pin,uniform int useLight,uniform bool useTexture,uniform bool useFog):SV_TARGET
 {
 	float4 texColor = float4(1.f,1.f,1.f,1.f);
+	float dist = 0.f;
 	if (useTexture)
 	{	
 		texColor = g_tex.Sample(samplerTex, pin.tex);
 	}
 	float4 litColor = texColor;
-	float3 toEye = normalize(g_eyePos - pin.posTrans);
+	float3 toEye = g_eyePos - pin.posTrans;
+	dist = length(toEye);
+	if (useFog)
+	{
+		//clip(g_fogStart + g_fogRange - dist);
+	}
+	toEye = normalize(toEye);
 	float3 normal = normalize(pin.normal);
 	float4 A = float4(0.f, 0.f, 0.f, 0.f);
 	float4 D = float4(0.f, 0.f, 0.f, 0.f);
@@ -70,8 +80,19 @@ float4 PS(VertexOut pin,uniform int useLight,uniform bool useTexture):SV_TARGET
 		D += diff;
 		S += spec;
 	}
+	else
+	{
+		A = g_material.ambient;
+		D = g_material.diffuse;
+		S = g_material.specular;
+	}
 	litColor = texColor * (A + D) + S;
 	litColor.a = texColor.a*g_material.diffuse.a;
+	if (useFog)
+	{
+		float fogFactor = saturate((dist - g_fogStart) / g_fogRange);
+		litColor = (1 - fogFactor)*litColor + fogFactor*g_fogColor;
+	}
 	return litColor;
 }
 
@@ -80,7 +101,7 @@ technique11 NoTex
 	pass P0
 	{
 		SetVertexShader(CompileShader(vs_5_0, VS()));
-		SetPixelShader(CompileShader(ps_5_0, PS(true, false)));
+		SetPixelShader(CompileShader(ps_5_0, PS(true, false,false)));
 	}
 }
 technique11 NoLight
@@ -88,7 +109,7 @@ technique11 NoLight
 	pass P0
 	{
 		SetVertexShader(CompileShader(vs_5_0, VS()));
-		SetPixelShader(CompileShader(ps_5_0, PS(false, true)));
+		SetPixelShader(CompileShader(ps_5_0, PS(false, true,false)));
 	}
 }
 
@@ -97,6 +118,14 @@ technique11 TexLight
 	pass P0
 	{
 		SetVertexShader(CompileShader(vs_5_0, VS()));
-		SetPixelShader(CompileShader(ps_5_0, PS(true, true)));
+		SetPixelShader(CompileShader(ps_5_0, PS(true, true,false)));
+	}
+}
+technique11 TexLightFog
+{
+	pass P0
+	{
+		SetVertexShader(CompileShader(vs_5_0, VS()));
+		SetPixelShader(CompileShader(ps_5_0, PS(true, true, true)));
 	}
 }

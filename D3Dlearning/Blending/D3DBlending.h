@@ -36,7 +36,9 @@ private:
 	ID3D11Buffer	*m_IB;
 
 	Lights::PointLight  m_pointLight;
-	
+	XMFLOAT4   fogColor;
+	float	   fogStart;
+	float      fogRange;
 	GeoGen::MeshData m_basin;
 	GeoGen::MeshData m_water;
 	GeoGen::MeshData m_box;
@@ -54,6 +56,7 @@ private:
 	ID3D11ShaderResourceView *m_SRVBox;
 	ID3D11Resource           *m_RBox;
 
+	
 
 	XMFLOAT4X4 m_worldBasin;
 	XMFLOAT4X4 m_worldInvTransposeBasin;
@@ -88,5 +91,7 @@ private:
 	float	m_theta, m_phy;
 	float	m_radius;
 	POINT	m_lastPos;
+	//¼üÅÌ¿ØÖÆ²ÎÊý
+	int techSelected;
 };
 

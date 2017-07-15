@@ -40,11 +40,15 @@ bool BlendEffect::initBlendEffect(ID3D11Device* pd3d11Device, wstring fxFileName
 	//Ö¡
 	m_fxPointLight = m_fx->GetVariableByName("g_pointLight");
 	m_fxEyePos = m_fx->GetVariableByName("g_eyePos");
-	//
+	m_fxFogColor = m_fx->GetVariableByName("g_fogColor");
+	m_fxFogStart = m_fx->GetVariableByName("g_fogStart");
+	m_fxFogRange = m_fx->GetVariableByName("g_fogRange");
+	//¼¼Êõ
 	m_techNoTex = m_fx->GetTechniqueByName("NoTex");
 	m_techNoLight = m_fx->GetTechniqueByName("NoLight");
 	m_techTexLight = m_fx->GetTechniqueByName("TexLight");
-
+	m_techTexLightFog = m_fx->GetTechniqueByName("TexLightFog");
+	
 	//
 	D3D11_INPUT_ELEMENT_DESC iDesc[3] =
 	{

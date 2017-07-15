@@ -42,20 +42,23 @@ protected:
 	//针对每一帧
 	ID3DX11EffectVariable		    *m_fxPointLight;    //点光源
 	ID3DX11EffectVariable			*m_fxEyePos;        //观察点，用于更新观察
+	ID3DX11EffectVariable			*m_fxFogColor;
+	ID3DX11EffectVariable			*m_fxFogStart;
+	ID3DX11EffectVariable			*m_fxFogRange;
 	ID3D11InputLayout				*m_inputLayout;
 public:
 
 	ID3DX11EffectTechnique          *m_techNoTex;
 	ID3DX11EffectTechnique          *m_techNoLight;
 	ID3DX11EffectTechnique          *m_techTexLight;
-
+	ID3DX11EffectTechnique			*m_techTexLightFog;
 	BlendEffect() :Effect(),
 		m_fxWorld(nullptr), m_fxWorldInvTranspose(nullptr),
 		m_fxMaterial(nullptr),m_fxTexTrans(nullptr),
 
 		m_fxPointLight(nullptr),m_fxEyePos(nullptr),
 		m_fxSR(nullptr),
-		m_techNoTex(nullptr),m_techNoLight(nullptr),m_techTexLight(nullptr)
+		m_techNoTex(nullptr),m_techNoLight(nullptr),m_techTexLight(nullptr),m_techTexLightFog(nullptr)
 	{};
 	~BlendEffect()
 	{}
@@ -70,6 +73,9 @@ public:
 	}
 	void setEyePos(XMFLOAT3 eyepos) { m_fxEyePos->SetRawValue((void*)&eyepos, 0, sizeof(eyepos)); }
 	void setShaderResourceView(ID3D11ShaderResourceView *srv) { m_fxSR->SetResource(srv); }
+	void setFogColor(XMFLOAT4 fogColor) { m_fxFogColor->SetRawValue((void*)(&fogColor), 0, sizeof(fogColor)); }
+	void setFogStart(float fogStart) { m_fxFogStart->SetRawValue(&fogStart, 0, sizeof(fogStart)); }
+	void setFogRange(float fogRange) { m_fxFogRange->SetRawValue(&fogRange, 0, sizeof(fogRange)); }
 	ID3DX11Effect* getFX()
 	{
 		return m_fx;

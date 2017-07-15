@@ -42,6 +42,4 @@ namespace GeoGen
 	//创建一个球体：指定半径(radius)、slice和stack
 	void CreateSphere(float radius, int slice, int stack, MeshData &mesh);
 };
-
-
 #endif
