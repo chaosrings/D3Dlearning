@@ -6,6 +6,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, 
 	MirrorDemo db(hInstance);
 	if (!db.Init())
 		return -1;
+	//
 	return db.Run();
 }
 
