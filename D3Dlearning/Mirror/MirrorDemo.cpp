@@ -311,6 +311,7 @@ bool MirrorDemo::Render()
 	//绘制地面，墙面
 	m_deviceContext->IASetVertexBuffers(0, 1, &m_VBPlane, &stride, &offset);
 	m_deviceContext->IASetIndexBuffer(m_IBPlane, DXGI_FORMAT_R32_UINT, 0);
+
 	m_effect->setWorldMatrix(XMLoadFloat4x4(&m_worldFloor));
 	m_effect->setWorldInvTranspose(XMLoadFloat4x4(&m_worldInvTransposeFloor));
 	m_effect->setWorldViewProj(XMLoadFloat4x4(&m_worldViewProjFloor));

@@ -154,6 +154,8 @@
   <ItemGroup>
     <ClInclude Include="Common\AppUtil.h" />
     <ClInclude Include="Blending\D3DBlending.h" />
+    <ClInclude Include="Common\Camera.h" />
+    <ClInclude Include="Common\RenderObeject.h" />
     <ClInclude Include="Light\D3Dlight.h" />
     <ClInclude Include="Common\DDSTextureLoader.h" />
     <ClInclude Include="Common\Effect.h" />
@@ -167,6 +169,7 @@
   <ItemGroup>
     <ClCompile Include="Common\AppUtil.cpp" />
     <ClCompile Include="Blending\D3DBlending.cpp" />
+    <ClCompile Include="Common\Camera.cpp" />
     <ClCompile Include="Light\D3Dlight.cpp" />
     <ClCompile Include="Common\DDSTextureLoader.cpp" />
     <ClCompile Include="Common\Effect.cpp" />
@@ -210,6 +213,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Texture\brick.dds" />
     <Image Include="Texture\checkboard.dds" />
     <Image Include="Texture\ice.dds" />
     <Image Include="Texture\water.dds" />

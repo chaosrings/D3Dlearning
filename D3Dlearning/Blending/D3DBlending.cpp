@@ -7,6 +7,7 @@ D3DBlending::D3DBlending(HINSTANCE hInst, wstring title, int width, int height)
 	m_phy(XM_PI * 0.45f),
 	m_radius(8.f)
 {
+	m_camera = new Camera(width, height);
 	m_effect = new BlendEffect();
 	techSelected = 0;
 	m_pointLight.ambient = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
@@ -192,18 +193,24 @@ bool D3DBlending::Init()
 
 bool D3DBlending::Update(float delta)
 {
+	if (KeyDown('A'))
+		m_camera->Strafe(-delta*5.f);
+	if (KeyDown('D'))
+		m_camera->Strafe(delta*5.f);
+	if (KeyDown('W'))
+		m_camera->Walk(delta*5.f);
+	if (KeyDown('S'))
+		m_camera->Walk(-delta*5.f);
 	XMMATRIX worldBasin = XMLoadFloat4x4(&m_worldBasin);
 	XMMATRIX worldBasinB = XMLoadFloat4x4(&m_worldBasinBottom);
 	XMMATRIX worldWater = XMLoadFloat4x4(&m_worldWater);
 	XMMATRIX worldBox = XMLoadFloat4x4(&m_worldBox);
 
-	XMVECTOR eyePos = XMVectorSet(m_radius*sin(m_phy)*cos(m_theta), m_radius*cos(m_phy), m_radius*sin(m_phy)*sin(m_theta), 1.f);
-	XMVECTOR lookAt = XMVectorSet(0.f, 0.f, 0.f, 1.f);
-	XMVECTOR up = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+	m_camera->updateView();
 
-	XMMATRIX view = XMMatrixLookAtLH(eyePos, lookAt, up);
-	XMMATRIX proj = XMMatrixPerspectiveFovLH(XM_PI*0.25f, 1.f*m_clientWidth / m_clientHeight, 1.f, 1000.f);
 
+	XMMATRIX view = m_camera->View();
+	XMMATRIX proj = m_camera->Proj();
 	XMStoreFloat4x4(&m_worldViewProjBasin, worldBasin*view*proj);
 	XMStoreFloat4x4(&m_worldViewProjBasinBottom, worldBasinB*view*proj);
 	XMStoreFloat4x4(&m_worldViewProjWater, worldWater*view*proj);
@@ -215,8 +222,7 @@ bool D3DBlending::Update(float delta)
 	m_effect->setFogStart(fogStart);
 	m_effect->setFogRange(fogRange);
 
-	XMFLOAT3 eye;
-	XMStoreFloat3(&eye, eyePos);
+	XMFLOAT3 eye = m_camera->getPosition();
 	m_effect->setEyePos(eye);
 	return true;
 }
@@ -339,6 +345,11 @@ void D3DBlending::OnMouseMove(WPARAM btnState, int x, int y)
 		m_phy -= dy;
 
 		m_phy = Clamp(0.01f, 0.5f*XM_PI, m_phy);
+
+		m_camera->RotateY(XM_PI*0.0002f*(x - m_lastPos.x));
+		m_camera->Pitch(XM_PI*0.0002f*(y - m_lastPos.y));
+		m_lastPos.x = x;
+		m_lastPos.y = y;
 	}
 	else if ((btnState & MK_RBUTTON) != 0)
 	{
@@ -347,9 +358,7 @@ void D3DBlending::OnMouseMove(WPARAM btnState, int x, int y)
 
 		m_radius = Clamp(3.f, 10.f, m_radius);
 	}
-
-	m_lastPos.x = x;
-	m_lastPos.y = y;
+	
 }
 void D3DBlending::OnKeyDown(WPARAM keyPressed) {
 	switch (keyPressed)

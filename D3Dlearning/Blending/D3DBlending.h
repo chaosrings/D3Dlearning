@@ -2,6 +2,7 @@
 #include "WinApp.h"
 #include "Effect.h"
 #include "GeometryGens.h"
+#include "Camera.h"
 struct Vertex
 {
 	XMFLOAT3 pos;
@@ -20,7 +21,7 @@ public:
 	bool Init();
 	bool Update(float delta);
 	bool Render();
-
+	
 	void OnMouseDown(WPARAM btnState, int x, int y);
 	void OnMouseUp(WPARAM btnState, int x, int y);
 	void OnMouseMove(WPARAM btnState, int x, int y);
@@ -29,6 +30,7 @@ public:
 
 private:
 	BlendEffect*   m_effect;
+	Camera	   *   m_camera;
 	bool BuildShaderResourceView();
 	bool BuildBuffers();
 	

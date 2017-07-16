@@ -63,6 +63,12 @@
     <ClInclude Include="Mirror\MirrorDemo.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Common\RenderObeject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -98,6 +104,9 @@
     <ClCompile Include="Mirror\MirrorDemo.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Common\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -124,5 +133,6 @@
       <Filter>Texture</Filter>
     </Image>
     <Image Include="Texture\ice.dds" />
+    <Image Include="Texture\brick.dds" />
   </ItemGroup>
 </Project>

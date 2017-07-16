@@ -263,11 +263,6 @@ bool WinApp::OnResize()
 {
 	if (m_swapChain == NULL)
 		return false;
-	//HRESULT hr;
-
-	//SafeRelease(m_depthStencilView);
-	//SafeRelease(m_renderTargetView);
-	//SafeRelease(m_depthStencilBuffer);
 
 
 

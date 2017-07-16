@@ -2,6 +2,7 @@
 #include "WinApp.h"
 #include "AppUtil.h"
 #include "GeometryGens.h"
+#include "Camera.h"
 #include "Lights.h"
 #include <d3dx11effect.h>
 #include <rpcasync.h>
