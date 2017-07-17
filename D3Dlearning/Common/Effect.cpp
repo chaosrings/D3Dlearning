@@ -25,7 +25,7 @@ bool Effect::initEffect(ID3D11Device* pd3d11Device,wstring fxFileName)
 
 
 
-bool BlendEffect::initBlendEffect(ID3D11Device* pd3d11Device, wstring fxFileName)
+bool BasicEffect::initBasicEffect(ID3D11Device* pd3d11Device, wstring fxFileName)
 {
 	if (!Effect::initEffect(pd3d11Device, fxFileName))
 		return false;
@@ -36,7 +36,7 @@ bool BlendEffect::initBlendEffect(ID3D11Device* pd3d11Device, wstring fxFileName
 	m_fxTexTrans = m_fx->GetVariableByName("g_texTrans")->AsMatrix();
 	//ÎÆÀí
 	m_fxSR = m_fx->GetVariableByName("g_tex")->AsShaderResource();
-
+	m_fxCubeSR = m_fx->GetVariableByName("g_cubeTex")->AsShaderResource();
 	//Ö¡
 	m_fxPointLight = m_fx->GetVariableByName("g_pointLight");
 	m_fxEyePos = m_fx->GetVariableByName("g_eyePos");
@@ -48,7 +48,7 @@ bool BlendEffect::initBlendEffect(ID3D11Device* pd3d11Device, wstring fxFileName
 	m_techNoLight = m_fx->GetTechniqueByName("NoLight");
 	m_techTexLight = m_fx->GetTechniqueByName("TexLight");
 	m_techTexLightFog = m_fx->GetTechniqueByName("TexLightFog");
-	
+	m_techCubeTexLight = m_fx->GetTechniqueByName("CubeTexLight");
 	//
 	D3D11_INPUT_ELEMENT_DESC iDesc[3] =
 	{

@@ -30,7 +30,7 @@ public:
 	void OnKeyUp(WPARAM keyPressed);
 
 private:
-	BlendEffect*   m_effect;
+	BasicEffect*   m_effect;
 	Camera	   *   m_camera;
 	bool BuildShaderResourceView();
 	bool BuildBuffers();

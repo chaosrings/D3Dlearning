@@ -3,7 +3,7 @@
 #include "CubeMapping\CubeMapping.h"
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow)
 {
-	MirrorDemo db(hInstance);
+	CubeMapping db(hInstance);
 	if (!db.Init())
 		return -1;
 	//

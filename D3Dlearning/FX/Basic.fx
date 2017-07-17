@@ -15,6 +15,7 @@ SamplerState samplerTex
 	AddressU = Wrap;
 	AddressV = Wrap;
 };
+TextureCube g_cubeTex;
 cbuffer PerFrame
 {
 	PointLight g_pointLight;
@@ -52,7 +53,7 @@ VertexOut VS(VertexIn vin)
 	return vout;
 }
 
-float4 PS(VertexOut pin,uniform int useLight,uniform bool useTexture,uniform bool useFog):SV_TARGET
+float4 PS(VertexOut pin,uniform int useLight,uniform bool useTexture,uniform bool useFog,uniform bool useReflect):SV_TARGET
 {
 	float4 texColor = float4(1.f,1.f,1.f,1.f);
 	float dist = 0.f;
@@ -65,7 +66,7 @@ float4 PS(VertexOut pin,uniform int useLight,uniform bool useTexture,uniform boo
 	dist = length(toEye);
 	if (useFog)
 	{
-		//clip(g_fogStart + g_fogRange - dist);
+		clip(g_fogStart + g_fogRange - dist);
 	}
 	toEye = normalize(toEye);
 	float3 normal = normalize(pin.normal);
@@ -91,7 +92,13 @@ float4 PS(VertexOut pin,uniform int useLight,uniform bool useTexture,uniform boo
 	if (useFog)
 	{
 		float fogFactor = saturate((dist - g_fogStart) / g_fogRange);
-		litColor = (1 - fogFactor)*litColor + fogFactor*g_fogColor;
+		litColor = lerp(litColor, g_fogColor, fogFactor);
+	}
+	if (useReflect)
+	{
+		float3 ref = reflect(-toEye, normal);
+		float4 refColor = g_cubeTex.Sample(samplerTex, ref);
+		litColor = lerp(litColor, refColor, 0.82f);
 	}
 	return litColor;
 }
@@ -101,7 +108,7 @@ technique11 NoTex
 	pass P0
 	{
 		SetVertexShader(CompileShader(vs_5_0, VS()));
-		SetPixelShader(CompileShader(ps_5_0, PS(true, false,false)));
+		SetPixelShader(CompileShader(ps_5_0, PS(true, false,false,false)));
 	}
 }
 technique11 NoLight
@@ -109,7 +116,7 @@ technique11 NoLight
 	pass P0
 	{
 		SetVertexShader(CompileShader(vs_5_0, VS()));
-		SetPixelShader(CompileShader(ps_5_0, PS(false, true,false)));
+		SetPixelShader(CompileShader(ps_5_0, PS(false, true,false,false)));
 	}
 }
 
@@ -118,7 +125,7 @@ technique11 TexLight
 	pass P0
 	{
 		SetVertexShader(CompileShader(vs_5_0, VS()));
-		SetPixelShader(CompileShader(ps_5_0, PS(true, true,false)));
+		SetPixelShader(CompileShader(ps_5_0, PS(true, true,false,false)));
 	}
 }
 technique11 TexLightFog
@@ -126,6 +133,14 @@ technique11 TexLightFog
 	pass P0
 	{
 		SetVertexShader(CompileShader(vs_5_0, VS()));
-		SetPixelShader(CompileShader(ps_5_0, PS(true, true, true)));
+		SetPixelShader(CompileShader(ps_5_0, PS(true, true, true,false)));
 	}
 }
+technique11 CubeTexLight
+{
+	pass P0
+	{
+		SetVertexShader(CompileShader(vs_5_0, VS()));
+		SetPixelShader(CompileShader(ps_5_0, PS(true, true, false, true)));
+	}
+};

@@ -11,7 +11,7 @@ MirrorDemo::MirrorDemo(HINSTANCE hInst, std::wstring title, int width, int heigh
 	m_radius(8.f),
 	techSelected(2)
 {
-	m_effect = new BlendEffect();
+	m_effect = new BasicEffect();
 	m_pointLight.ambient = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
 	m_pointLight.diffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
 	m_pointLight.specular = XMFLOAT4(0.25f, 0.25f, 0.25f, 1.f);
@@ -215,7 +215,7 @@ bool MirrorDemo::Init()
 {
 	if (!WinApp::Init())
 		return false;
-	if (!m_effect->initBlendEffect(m_d3dDevice, L"Basic.fxo"))
+	if (!m_effect->initBasicEffect(m_d3dDevice, L"Basic.fxo"))
 		return false;
 	if (!RenderStates::InitRenderStates(m_d3dDevice))
 		return false;

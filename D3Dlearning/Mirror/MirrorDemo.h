@@ -31,7 +31,7 @@ private:
 	bool BuildBuffers();
 	bool BuildShaderReources();
 
-	BlendEffect *m_effect;
+	BasicEffect *m_effect;
 	int techSelected;
 
 	ID3D11Buffer  *m_VBPlane;

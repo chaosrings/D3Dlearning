@@ -8,7 +8,7 @@ D3DBlending::D3DBlending(HINSTANCE hInst, wstring title, int width, int height)
 	m_radius(8.f)
 {
 	m_camera = new Camera(width, height);
-	m_effect = new BlendEffect();
+	m_effect = new BasicEffect();
 	techSelected = 0;
 	m_pointLight.ambient = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
 	m_pointLight.diffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
@@ -181,7 +181,7 @@ bool D3DBlending::Init()
 {
 	if (!WinApp::Init())
 		return false;
-	if (!m_effect->initBlendEffect(m_d3dDevice, L"FX//basicBlend.fxo"))
+	if (!m_effect->initBasicEffect(m_d3dDevice, L"FX//basicBlend.fxo"))
 		return false;
 	if (!BuildShaderResourceView())
 		return false;
