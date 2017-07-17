@@ -1,7 +1,7 @@
 #include "Effect.h"
 bool Effect::initEffect(ID3D11Device* pd3d11Device,wstring fxFileName)
 {
-	ifstream fxFile("basicBlend.fxo", ios::binary);
+	ifstream fxFile(fxFileName, ios::binary);
 	if (!fxFile)
 	{
 		MessageBox(NULL, L"fxFile miss!", L"Error", MB_OK);

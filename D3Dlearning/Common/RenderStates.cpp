@@ -1,6 +1,6 @@
 #include "AppUtil.h"
 #include "RenderStates.h"
-
+ID3D11RasterizerState* RenderStates::WireFrameRS(NULL);
 ID3D11RasterizerState* RenderStates::NoCullRS(NULL);
 ID3D11RasterizerState* RenderStates::CounterClockFrontRS(NULL);
 
@@ -12,6 +12,18 @@ ID3D11DepthStencilState* RenderStates::DrawReflectionDSS(NULL);
 ID3D11DepthStencilState* RenderStates::NoDoubleBlendDDS(NULL);
 bool RenderStates::InitRenderStates(ID3D11Device* device)
 {
+	D3D11_RASTERIZER_DESC wfDesc;
+	ZeroMemory(&wfDesc, sizeof(wfDesc));
+	wfDesc.FillMode = D3D11_FILL_WIREFRAME;
+	wfDesc.CullMode = D3D11_CULL_BACK;
+	wfDesc.FrontCounterClockwise = false;
+	wfDesc.DepthClipEnable = true;
+	if (FAILED(device->CreateRasterizerState(&wfDesc, &WireFrameRS)))
+	{
+		MessageBox(NULL, L"Create 'WireFrame' rasterizer state failed!", L"Error", MB_OK);
+		return false;
+	}
+
 	D3D11_BLEND_DESC transDesc;
 	transDesc.AlphaToCoverageEnable = false;        //关闭AlphaToCoverage  
 	transDesc.IndependentBlendEnable = false;       //不针对多个RenderTarget使用不同的混合状态  
@@ -123,8 +135,8 @@ bool RenderStates::InitRenderStates(ID3D11Device* device)
 	nodoubleblendDesc.StencilEnable = true;
 	nodoubleblendDesc.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
 	nodoubleblendDesc.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-	nodoubleblendDesc.FrontFace.StencilFunc = D3D11_COMPARISON_EQUAL;
-	nodoubleblendDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
+	nodoubleblendDesc.FrontFace.StencilFunc = D3D11_COMPARISON_GREATER;
+	nodoubleblendDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_INCR;
 	nodoubleblendDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
 	nodoubleblendDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
 

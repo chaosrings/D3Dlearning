@@ -215,7 +215,7 @@ bool MirrorDemo::Init()
 {
 	if (!WinApp::Init())
 		return false;
-	if (!m_effect->initBlendEffect(m_d3dDevice, L"FX//Basic.fxo"))
+	if (!m_effect->initBlendEffect(m_d3dDevice, L"Basic.fxo"))
 		return false;
 	if (!RenderStates::InitRenderStates(m_d3dDevice))
 		return false;
@@ -391,8 +391,9 @@ bool MirrorDemo::Render()
 	//绘制箱子的影子
 	m_deviceContext->IASetVertexBuffers(0, 1, &m_VBBox, &stride, &offset);
 	m_deviceContext->IASetIndexBuffer(m_IBBox, DXGI_FORMAT_R32_UINT, 0);
-	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_STENCIL, 1.f, 0);
-	m_deviceContext->OMSetDepthStencilState(RenderStates::NoDoubleBlendDDS, 0x0);
+	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_STENCIL, 1.f, 0);  //将模版缓冲清0
+	m_deviceContext->OMSetDepthStencilState(RenderStates::NoDoubleBlendDDS, 0x1);// 将ref设置为1，只有小于才通过测试,通过后增加1
+	//这样就不存在二重融合的问题
 	XMVECTOR grond = XMVectorSet(0.f, 1.f, 0.f, 2.5f);
 	XMVECTOR lightDir = XMLoadFloat3(&m_pointLight.pos);
 	XMMATRIX shadowMat = XMMatrixShadow(grond, lightDir);

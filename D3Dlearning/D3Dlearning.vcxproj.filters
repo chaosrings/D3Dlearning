@@ -63,10 +63,13 @@
     <ClInclude Include="Mirror\MirrorDemo.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Common\RenderObeject.h">
+    <ClInclude Include="Common\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Common\Camera.h">
+    <ClInclude Include="CubeMapping\SkyBoxEffect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeMapping\CubeMapping.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -107,20 +110,22 @@
     <ClCompile Include="Common\Camera.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CubeMapping\CubeMapping.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Basic.fxo" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="FX\BasicLight.fx">
-      <Filter>FX</Filter>
-    </CustomBuild>
     <CustomBuild Include="FX\Light.fx">
       <Filter>FX</Filter>
     </CustomBuild>
     <CustomBuild Include="FX\Basic.fx">
       <Filter>FX</Filter>
     </CustomBuild>
+    <CustomBuild Include="FX\CubeMapping.fx" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Texture\water.dds">
@@ -134,5 +139,6 @@
     </Image>
     <Image Include="Texture\ice.dds" />
     <Image Include="Texture\brick.dds" />
+    <Image Include="Texture\snowcube1024.dds" />
   </ItemGroup>
 </Project>

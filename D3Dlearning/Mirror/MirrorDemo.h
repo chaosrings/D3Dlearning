@@ -5,12 +5,7 @@
 #include "RenderStates.h"
 #include "GeometryGens.h"
 #include "Lights.h"
-struct Vertex
-{
-	XMFLOAT3 pos;
-	XMFLOAT3 normal;
-	XMFLOAT2 tex;
-};
+
 class MirrorDemo: public WinApp
 {
 public:
@@ -27,6 +22,12 @@ public:
 	void OnKeyUp(WPARAM keyPressed);
 
 private:
+	struct Vertex
+	{
+		XMFLOAT3 pos;
+		XMFLOAT3 normal;
+		XMFLOAT2 tex;
+	};
 	bool BuildBuffers();
 	bool BuildShaderReources();
 

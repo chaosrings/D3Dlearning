@@ -155,7 +155,8 @@
     <ClInclude Include="Common\AppUtil.h" />
     <ClInclude Include="Blending\D3DBlending.h" />
     <ClInclude Include="Common\Camera.h" />
-    <ClInclude Include="Common\RenderObeject.h" />
+    <ClInclude Include="CubeMapping\CubeMapping.h" />
+    <ClInclude Include="CubeMapping\SkyBoxEffect.h" />
     <ClInclude Include="Light\D3Dlight.h" />
     <ClInclude Include="Common\DDSTextureLoader.h" />
     <ClInclude Include="Common\Effect.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Common\AppUtil.cpp" />
     <ClCompile Include="Blending\D3DBlending.cpp" />
     <ClCompile Include="Common\Camera.cpp" />
+    <ClCompile Include="CubeMapping\CubeMapping.cpp" />
     <ClCompile Include="Light\D3Dlight.cpp" />
     <ClCompile Include="Common\DDSTextureLoader.cpp" />
     <ClCompile Include="Common\Effect.cpp" />
@@ -181,23 +183,6 @@
     <ClCompile Include="Mirror\MirrorDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="FX\BasicLight.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'"> fxc /Fc /Od /Zi /T fx_5_0 /Fo  "%(Filename).fxo"  "%(FullPath)"</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Filename).fxo</Outputs>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)%(Filename).cso</ObjectFileOutput>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">null</EntryPointName>
-      <DisableOptimizations Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DisableOptimizations>
-    </CustomBuild>
     <CustomBuild Include="FX\Light.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -210,12 +195,14 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Basic.fxo" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Texture\brick.dds" />
     <Image Include="Texture\checkboard.dds" />
     <Image Include="Texture\ice.dds" />
+    <Image Include="Texture\snowcube1024.dds" />
     <Image Include="Texture\water.dds" />
     <Image Include="Texture\Wood.dds" />
   </ItemGroup>
@@ -225,6 +212,13 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(Filename).fxo"  "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Filename).fxo</Outputs>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="FX\CubeMapping.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Fc /Od /Zi /T fx_5_0 /Fo "%(Filename).fxo"  "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Filename).fxo</Outputs>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

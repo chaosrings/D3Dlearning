@@ -5,6 +5,7 @@ class RenderStates
 public:
 	static bool InitRenderStates(ID3D11Device* device);
 	static void Release();
+	static ID3D11RasterizerState  *WireFrameRS;
 	static ID3D11RasterizerState  *NoCullRS;
 	static ID3D11RasterizerState  *CounterClockFrontRS;
 

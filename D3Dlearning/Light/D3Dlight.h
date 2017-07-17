@@ -12,12 +12,7 @@
 
 using namespace std;
 
-struct Vertex
-{
-	XMFLOAT3 pos;
-	XMFLOAT3 normal;
-	XMFLOAT2 tex;
-};
+
 
 class D3Dlight :public WinApp
 {
@@ -34,6 +29,12 @@ public:
 	 void OnKeyDown(WPARAM keyPressed);
 	 void OnKeyUp(WPARAM keyPressed);
 private:
+	struct Vertex
+	{
+		XMFLOAT3 pos;
+		XMFLOAT3 normal;
+		XMFLOAT2 tex;
+	};
 	bool BuildFX();
 	bool BuildInputLayout();
 	bool BuildBuffers();

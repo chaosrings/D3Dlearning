@@ -3,18 +3,19 @@
 #include "Effect.h"
 #include "GeometryGens.h"
 #include "Camera.h"
-struct Vertex
-{
-	XMFLOAT3 pos;
-	XMFLOAT3 normal;
-	XMFLOAT2 tex;
-};
 
 class D3DBlending : public WinApp
 {
 protected:
-
+	struct Vertex
+	{
+		XMFLOAT3 pos;
+		XMFLOAT3 normal;
+		XMFLOAT2 tex;
+	};
 public:
+	
+
 	D3DBlending(HINSTANCE hInst, std::wstring title = L"d3dLearning", int width = 1024, int height = 720);
 	~D3DBlending();
 	
