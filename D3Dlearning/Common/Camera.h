@@ -25,7 +25,8 @@ public:
 	~Camera() {};
 	void  setPosition(float x, float y, float z) { m_position = XMFLOAT3(x, y, z); }
 	void setPositionXM(XMFLOAT3 pos) { m_position = pos; }
-
+	void LookAt(XMFLOAT3 &, XMFLOAT3&, XMFLOAT3&);
+	void LookAtXM(FXMVECTOR, FXMVECTOR, FXMVECTOR);
 	XMFLOAT3 getPosition() const { return m_position; }
 	XMFLOAT3 getUp() const { return m_up; }
 	XMFLOAT3 getLook() const { return m_look; }

@@ -23,6 +23,8 @@ public:
 	~CubeMapping();
 	bool BuildBuffers();
 	bool BuildShaderResourceView();
+	bool BuildDynamicCubeMappingViews();
+	bool updateDynamicCameras(float,float,float);
 	bool Update(float delta);
 	bool Render();
 
@@ -46,10 +48,23 @@ private:
 	//ÎïÌå
 	GeoGen::MeshData m_skySphere;
 	GeoGen::MeshData m_refSphere;
+
 	Lights::Material m_materialRef;
+	Lights::Material m_materialObj;
 	XMFLOAT4X4  m_refWorld;
-	XMFLOAT4X4  m_refWorldViewProj;
-	XMFLOAT4X4  m_refWorldInvTranspose;
+	XMFLOAT4X4 m_objWorld;
+	
+	ID3D11ShaderResourceView *m_SRVObjectSphere;
 	ID3D11ShaderResourceView *m_SRVSkyBox;
+
+	UINT m_cubeMapWidth = 512;
+	UINT m_cubeMapHeight = 512;
+	
+	ID3D11RenderTargetView  *m_dynamicRTV[6];
+	ID3D11DepthStencilView  *m_dynamicDSV;
+	ID3D11ShaderResourceView *m_dynamicSRV;
+	D3D11_VIEWPORT          m_viewport;
+	D3D11_VIEWPORT			m_dynamicViewport;
+	Camera					m_dynamicCameras[6];
 	POINT m_lastPos;
 };

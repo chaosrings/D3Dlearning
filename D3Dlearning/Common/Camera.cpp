@@ -11,6 +11,29 @@ Camera::Camera(int width, int height):
 	XMStoreFloat4x4(&m_proj, XMMatrixPerspectiveFovLH(m_fovY, m_aspect, m_nearZ, m_farZ));
 }
 
+
+void Camera::LookAtXM(FXMVECTOR pos, FXMVECTOR lookAt, FXMVECTOR worldUp)
+{
+	XMVECTOR look = XMVector3Normalize(lookAt - pos);
+	XMVECTOR right = XMVector3Normalize(XMVector3Cross(worldUp, look));
+	XMVECTOR up = XMVector3Cross(look, right);
+
+	XMStoreFloat3(&m_position, pos);
+	XMStoreFloat3(&m_right, right);
+	XMStoreFloat3(&m_up, up);
+	XMStoreFloat3(&m_look, look);
+}
+
+void Camera::LookAt(XMFLOAT3 &pos, XMFLOAT3 &lookAt, XMFLOAT3 &worldUp)
+{
+	XMVECTOR p = XMLoadFloat3(&pos);
+	XMVECTOR l = XMLoadFloat3(&lookAt);
+	XMVECTOR u = XMLoadFloat3(&worldUp);
+
+	LookAtXM(p, l, u);
+}
+
+
 void Camera::Walk(float dist)  //向前向后
 {
 	XMVECTOR look = XMLoadFloat3(&m_look);
