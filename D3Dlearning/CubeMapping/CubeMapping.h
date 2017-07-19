@@ -67,4 +67,7 @@ private:
 	D3D11_VIEWPORT			m_dynamicViewport;
 	Camera					m_dynamicCameras[6];
 	POINT m_lastPos;
+
+	bool usewfRender = true;
+	bool userefRender = false;
 };

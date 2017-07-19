@@ -181,7 +181,7 @@ bool D3DBlending::Init()
 {
 	if (!WinApp::Init())
 		return false;
-	if (!m_effect->initBasicEffect(m_d3dDevice, L"FX//basicBlend.fxo"))
+	if (!m_effect->initBasicEffect(m_d3dDevice, L"Basic.fxo"))
 		return false;
 	if (!BuildShaderResourceView())
 		return false;

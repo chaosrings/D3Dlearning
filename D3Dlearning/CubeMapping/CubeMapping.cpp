@@ -383,13 +383,15 @@ bool CubeMapping::Render()
 			m_basicEffect->setShaderResourceView(m_SRVObjectSphere);
 			m_basicEffect->setMaterial(m_materialObj);
 			tech->GetPassByIndex(p)->Apply(0, m_deviceContext);
-			m_deviceContext->DrawIndexed(m_refSphere.indices.size(), 0, 1);
+			m_deviceContext->DrawIndexed(m_refSphere.indices.size(), 0, 0);
 		}
 	}
 	m_deviceContext->GenerateMips(m_dynamicSRV);
 	//äÖÈ¾·´ÉäÇòÃæ
 	m_deviceContext->RSSetViewports(1, &m_viewport);
 	m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
+	if(usewfRender)
+		m_deviceContext->RSSetState(RenderStates::WireFrameRS);
 	m_deviceContext->ClearRenderTargetView(m_renderTargetView, Colors::Silver);
 	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	m_deviceContext->IASetInputLayout(m_basicEffect->getInputLayout());
@@ -399,7 +401,9 @@ bool CubeMapping::Render()
 	m_deviceContext->IASetVertexBuffers(0, 1, &m_refVB, &stride, &offset);
 	m_deviceContext->IASetIndexBuffer(m_refIB, DXGI_FORMAT_R32_UINT, 0);
 	D3DX11_TECHNIQUE_DESC techDesc;
-	ID3DX11EffectTechnique *tech= m_basicEffect->m_techCubeTexLight;
+	ID3DX11EffectTechnique *tech = m_basicEffect->m_techNoTex;
+	if (userefRender)
+		tech = m_basicEffect->m_techCubeTexLight;
 	tech->GetDesc(&techDesc);
 	for (UINT i = 0; i < techDesc.Passes; ++i)
 	{
@@ -464,5 +468,16 @@ void CubeMapping::OnMouseMove(WPARAM btnState, int x, int y)
 	m_lastPos.y = y;
 }
 
-void CubeMapping::OnKeyDown(WPARAM keyPressed) {}
+void CubeMapping::OnKeyDown(WPARAM keyPressed) {
+	switch (keyPressed)
+	{
+	case '1':
+		usewfRender = !usewfRender;
+		return;
+	case '2':
+		userefRender = !userefRender;
+	default:
+		break;
+	}
+}
 void CubeMapping::OnKeyUp(WPARAM keyPressed) {}

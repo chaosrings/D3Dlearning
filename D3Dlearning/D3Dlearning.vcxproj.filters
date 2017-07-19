@@ -72,6 +72,12 @@
     <ClInclude Include="CubeMapping\CubeMapping.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TerrainDemo\TerrainDemo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainDemo\Terrain.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -113,10 +119,17 @@
     <ClCompile Include="CubeMapping\CubeMapping.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TerrainDemo\TerrainDemo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainDemo\Terrain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Basic.fxo" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FX\Light.fx">

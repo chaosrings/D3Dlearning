@@ -166,6 +166,8 @@
     <ClInclude Include="Common\Timer.h" />
     <ClInclude Include="Common\WinApp.h" />
     <ClInclude Include="Mirror\MirrorDemo.h" />
+    <ClInclude Include="TerrainDemo\TerrainDemo.h" />
+    <ClInclude Include="TerrainDemo\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\AppUtil.cpp" />
@@ -181,6 +183,8 @@
     <ClCompile Include="Common\Timer.cpp" />
     <ClCompile Include="Common\WinApp.cpp" />
     <ClCompile Include="Mirror\MirrorDemo.cpp" />
+    <ClCompile Include="TerrainDemo\Terrain.cpp" />
+    <ClCompile Include="TerrainDemo\TerrainDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FX\Light.fx">
@@ -196,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.fxo" />
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

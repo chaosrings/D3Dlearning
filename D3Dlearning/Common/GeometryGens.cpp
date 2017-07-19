@@ -198,7 +198,6 @@ namespace GeoGen
 				mesh.vertices[index].tex = XMFLOAT2(dx*i, dx*j);
 			}
 		}
-
 		//总格子数量:m * n
 		//因此总索引数量: 6 * m * n
 		UINT nIndices = m * n * 6;
