@@ -4,6 +4,7 @@
 #include "SkyBoxEffect.h"
 #include "GeometryGens.h"
 #include "RenderStates.h"
+#include "Terrain.h"
 class CubeMapping : public WinApp
 {
 private:
@@ -37,6 +38,7 @@ private:
 	SkyBoxEffect *m_skyEffect;
 	BasicEffect  *m_basicEffect;
 	Camera		 *m_camera;
+	
 
 	ID3D11Buffer *m_skyVB;
 	ID3D11Buffer *m_skyIB;

@@ -52,4 +52,9 @@ inline XMMATRIX InverseTranspose(CXMMATRIX m)
 	return XMMatrixTranspose(XMMatrixInverse(&XMMatrixDeterminant(tmp), tmp));
 }
 
+
+inline float lerpf(float beginValue, float endValue, float lerpFactor)
+{
+	return (beginValue*(1 - lerpFactor) + endValue*lerpFactor);
+}
 #endif

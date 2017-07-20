@@ -44,7 +44,10 @@ public:
 		m_lastPos.x = x;
 		m_lastPos.y = y;
 	}
-	void OnKeyDown(WPARAM keyPressed) {};
+	void OnKeyDown(WPARAM keyPressed) {
+		if (keyPressed == '1')
+			usewfRender = !usewfRender;
+	};
 	void OnKeyUp(WPARAM keyPressed) {};
 
 private:
@@ -58,7 +61,6 @@ private:
 	XMFLOAT4X4    m_worldTerrain;
 	Lights::Material  m_materialTerrain;
 	ID3D11ShaderResourceView  *m_SRVTerrain;
-
+	bool usewfRender = true;
 	POINT m_lastPos;
-	
 };

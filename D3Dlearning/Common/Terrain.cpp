@@ -1,6 +1,34 @@
 #include "Terrain.h"
 
-bool Terrain::InitTerrain(string rawFileName, float maxHeight)
+float Terrain::getHeightByPosition(float x, float z)
+{
+	float cellSpaceX = width / nCellsRow;
+	float cellSpaceZ = height / nCellsCol;
+	
+	float distanceX = x + 0.5f*width;
+	float distanceZ = 0.5f*height-z;
+	
+	if (distanceX > width||distanceZ>height)
+		return 0;
+	int row = floorf(distanceZ / cellSpaceZ);
+	int col = floorf(distanceX / cellSpaceX);
+	/*float x0 = 1.f*col*cellSpaceX - 0.5f*width;
+	float z0 = 1.f*(row + 1)*cellSpaceZ - 0.5f*height;
+	float k = cellSpaceZ / cellSpaceX;
+	float judge = k*x - z + z0 - k*x0;*/
+	float A = getHeightEntry(row, col);
+	float D = getHeightEntry(row + 1, col + 1);
+
+	float ux = x - (1.f*col*cellSpaceX - 0.5f*width);
+	float uz = z - (0.5f*height-1.f*row*cellSpaceZ);
+	float distanceLerp = sqrtf(ux*ux + uz*uz);
+	float distanceCross = sqrtf(cellSpaceX*cellSpaceX + cellSpaceZ*cellSpaceZ);
+	float pos = lerpf(A, D, (distanceLerp / distanceCross));
+	
+	return pos;
+
+}
+bool Terrain::InitTerrain(string rawFileName)
 {
 	readRawFile(rawFileName, heightMap, nVertsRow * nVertsCol);
 	vertices.clear();
@@ -24,7 +52,7 @@ bool Terrain::InitTerrain(string rawFileName, float maxHeight)
 		{
 			UINT index = nVertsRow * i + j;
 			vertices[index].pos.x = oX + dx * j;
-			vertices[index].pos.y = normalizeHeight(getHeightEntry(i, j), maxHeight);
+			vertices[index].pos.y = getHeightEntry(i, j);
 			vertices[index].pos.z = tmpZ;
 			vertices[index].normal = XMFLOAT3(0, 1.f, 0);
 			vertices[index].tex = XMFLOAT2(dx*i, dx*j);
@@ -47,7 +75,6 @@ bool Terrain::InitTerrain(string rawFileName, float maxHeight)
 			indices[tmp + 4] = (i + 1) * nVertsRow + j + 1;
 			indices[tmp + 5] = (i + 1) * nVertsRow + j;
 			computeNormal(vertices[indices[tmp + 3]], vertices[indices[tmp + 4]], vertices[indices[tmp + 5]]);
-
 			tmp += 6;
 		}
 	}

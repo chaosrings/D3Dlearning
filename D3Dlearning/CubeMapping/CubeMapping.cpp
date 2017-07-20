@@ -215,6 +215,8 @@ bool CubeMapping::BuildShaderResourceView()
 }
 bool CubeMapping::BuildDynamicCubeMappingViews()
 {
+	UINT g_x4MsaaQuality;
+	m_d3dDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4, &g_x4MsaaQuality);
 	D3D11_TEXTURE2D_DESC cubeMapDesc;
 	cubeMapDesc.Width = m_cubeMapWidth;
 	cubeMapDesc.Height = m_cubeMapHeight;
@@ -225,8 +227,8 @@ bool CubeMapping::BuildDynamicCubeMappingViews()
 	cubeMapDesc.CPUAccessFlags = 0;
 	cubeMapDesc.MipLevels = 0;
 	cubeMapDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE | D3D11_RESOURCE_MISC_GENERATE_MIPS;
-	cubeMapDesc.SampleDesc.Count = 1;
-	cubeMapDesc.SampleDesc.Quality = 0;
+	cubeMapDesc.SampleDesc.Count =g_x4MsaaQuality ;
+	cubeMapDesc.SampleDesc.Quality = g_x4MsaaQuality-1;
 
 	ID3D11Texture2D *cubeMap(nullptr);
 	if (FAILED(m_d3dDevice->CreateTexture2D(&cubeMapDesc, 0, &cubeMap)))
@@ -270,8 +272,8 @@ bool CubeMapping::BuildDynamicCubeMappingViews()
 	dsDesc.ArraySize = 1;
 	dsDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	dsDesc.Usage = D3D11_USAGE_DEFAULT;
-	dsDesc.SampleDesc.Count = 1;
-	dsDesc.SampleDesc.Quality = 0;
+	dsDesc.SampleDesc.Count = g_x4MsaaQuality;
+	dsDesc.SampleDesc.Quality = g_x4MsaaQuality-1;
 	dsDesc.CPUAccessFlags = 0;
 	dsDesc.MiscFlags = 0;
 	dsDesc.MipLevels = 1;

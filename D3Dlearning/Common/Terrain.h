@@ -4,6 +4,7 @@
 #include <fstream>
 #include <directxmath.h>
 #include <windows.h>
+#include "AppUtil.h"
 using namespace std;
 using namespace DirectX;
 
@@ -23,21 +24,23 @@ private:
 		UINT nCellsCol;
 		float width;
 		float height;
-		vector<int> heightMap;
+		float maxHeight;
+		vector<float> heightMap;
 public:
 	vector<Vertex> vertices;
 	vector<UINT>   indices;
-	Terrain(float _width,float _height,int _m,int _n){
+	Terrain(float _width,float _height,int _m,int _n,float _maxHeight){
 		width = _width;
 		height = _height;
 		nCellsRow = _m;
 		nCellsCol = _n;
 		nVertsRow = nCellsRow + 1;
 		nVertsCol = nCellsCol + 1;
+		maxHeight = _maxHeight;
 	}
 	~Terrain() {}
-	bool InitTerrain(string rawFileName, float maxHeight);
-	bool readRawFile(std::string fileName, std::vector<int> & heightMap, int _numVertex)
+	bool InitTerrain(string rawFileName);
+	bool readRawFile(std::string fileName, std::vector<float> & heightMap, int _numVertex)
 	{
 		std::vector<char> in(_numVertex);
 		heightMap.resize(_numVertex);
@@ -47,14 +50,15 @@ public:
 		inFile.read(&in[0], _numVertex);
 		inFile.close();
 		for (unsigned int i = 0; i < in.size(); ++i)
-			heightMap[i] = in[i];
+			heightMap[i] = normalizeHeight(in[i]);
 		return true;
 	}
-	int getHeightEntry(int row, int col)
+	float getHeightByPosition(float x, float z);  // 根据 x,z的坐标获得高度信息
+	float  getHeightEntry(int row, int col)   //根据row col获得高度信息
 	{
 		return heightMap[row*nVertsRow + col];
 	}
-	float normalizeHeight(int grayPicHeight, float maxHeight)
+	float normalizeHeight(int grayPicHeight)
 	{
 		return (1.f*grayPicHeight/256)* maxHeight;
 	}
@@ -71,4 +75,5 @@ public:
 		v2.normal = tempNormal;
 		v3.normal = tempNormal;
 	}
+	
 };

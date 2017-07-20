@@ -75,7 +75,7 @@
     <ClInclude Include="TerrainDemo\TerrainDemo.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainDemo\Terrain.h">
+    <ClInclude Include="Common\Terrain.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -122,7 +122,7 @@
     <ClCompile Include="TerrainDemo\TerrainDemo.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainDemo\Terrain.cpp">
+    <ClCompile Include="Common\Terrain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
