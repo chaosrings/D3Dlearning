@@ -9,6 +9,7 @@ D3DBlending::D3DBlending(HINSTANCE hInst, wstring title, int width, int height)
 {
 	m_camera = new Camera(width, height);
 	m_effect = new BasicEffect();
+	m_pickRay = new pickRay(width, height, m_camera->Proj());
 	techSelected = 0;
 	m_pointLight.ambient = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
 	m_pointLight.diffuse = XMFLOAT4(1.f, 1.f, 1.f, 1.f);
@@ -207,8 +208,8 @@ bool D3DBlending::Update(float delta)
 	XMMATRIX worldBox = XMLoadFloat4x4(&m_worldBox);
 
 	m_camera->updateView();
-
-
+	
+	
 	XMMATRIX view = m_camera->View();
 	XMMATRIX proj = m_camera->Proj();
 	XMStoreFloat4x4(&m_worldViewProjBasin, worldBasin*view*proj);
@@ -325,6 +326,14 @@ bool D3DBlending::Render()
 void D3DBlending::OnMouseDown(WPARAM btnState, int x, int y)
 {
 	SetCapture(m_hWnd);
+	m_pickRay->calViewSpaceRay(x,y);
+	XMMATRIX worldBox = XMLoadFloat4x4(&m_worldBox);
+	m_pickRay->TransFromViewToLocal(worldBox, m_camera->View());
+	if (m_pickRay->RaySphereIntTest(0.f, sqrt(3)))
+	{
+		worldBox = worldBox*XMMatrixTranslation(0.04f, 0.f, 0.f);
+		XMStoreFloat4x4(&m_worldBox, worldBox);
+	}
 	m_lastPos.x = x;
 	m_lastPos.y = y;
 }

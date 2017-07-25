@@ -3,7 +3,7 @@
 #include "Effect.h"
 #include "GeometryGens.h"
 #include "Camera.h"
-
+#include "pickRay.h"
 class D3DBlending : public WinApp
 {
 protected:
@@ -32,6 +32,7 @@ public:
 private:
 	BasicEffect*   m_effect;
 	Camera	   *   m_camera;
+	pickRay    *   m_pickRay;
 	bool BuildShaderResourceView();
 	bool BuildBuffers();
 	

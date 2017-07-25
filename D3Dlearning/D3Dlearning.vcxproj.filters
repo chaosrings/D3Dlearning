@@ -78,6 +78,9 @@
     <ClInclude Include="Common\Terrain.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Common\pickRay.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

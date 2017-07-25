@@ -155,6 +155,7 @@
     <ClInclude Include="Common\AppUtil.h" />
     <ClInclude Include="Blending\D3DBlending.h" />
     <ClInclude Include="Common\Camera.h" />
+    <ClInclude Include="Common\pickRay.h" />
     <ClInclude Include="CubeMapping\CubeMapping.h" />
     <ClInclude Include="CubeMapping\SkyBoxEffect.h" />
     <ClInclude Include="Light\D3Dlight.h" />

@@ -4,7 +4,7 @@
 #include "TerrainDemo\TerrainDemo.h"
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdLine, int cmdShow)
 {
-	CubeMapping db(hInstance);
+	D3DBlending db(hInstance);
 	if (!db.Init())
 		return -1;
 	//
